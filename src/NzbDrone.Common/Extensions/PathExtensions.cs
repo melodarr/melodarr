@@ -12,18 +12,18 @@ namespace NzbDrone.Common.Extensions
     public static class PathExtensions
     {
         private const string APP_CONFIG_FILE = "config.xml";
-        private const string DB = "lidarr.db";
-        private const string DB_RESTORE = "lidarr.restore";
+        private const string DB = "melodarr.db";
+        private const string DB_RESTORE = "melodarr.restore";
         private const string LOG_DB = "logs.db";
         private const string NLOG_CONFIG_FILE = "nlog.config";
-        private const string UPDATE_CLIENT_EXE_NAME = "Lidarr.Update";
+        private const string UPDATE_CLIENT_EXE_NAME = "Melodarr.Update";
         private const string PLUGIN_FOLDER_NAME = "plugins";
 
-        private static readonly string UPDATE_SANDBOX_FOLDER_NAME = "lidarr_update" + Path.DirectorySeparatorChar;
-        private static readonly string UPDATE_PACKAGE_FOLDER_NAME = "Lidarr" + Path.DirectorySeparatorChar;
-        private static readonly string UPDATE_BACKUP_FOLDER_NAME = "lidarr_backup" + Path.DirectorySeparatorChar;
-        private static readonly string UPDATE_BACKUP_APPDATA_FOLDER_NAME = "lidarr_appdata_backup" + Path.DirectorySeparatorChar;
-        private static readonly string UPDATE_CLIENT_FOLDER_NAME = "Lidarr.Update" + Path.DirectorySeparatorChar;
+        private static readonly string UPDATE_SANDBOX_FOLDER_NAME = "melodarr_update" + Path.DirectorySeparatorChar;
+        private static readonly string UPDATE_PACKAGE_FOLDER_NAME = "Melodarr" + Path.DirectorySeparatorChar;
+        private static readonly string UPDATE_BACKUP_FOLDER_NAME = "melodarr_backup" + Path.DirectorySeparatorChar;
+        private static readonly string UPDATE_BACKUP_APPDATA_FOLDER_NAME = "melodarr_appdata_backup" + Path.DirectorySeparatorChar;
+        private static readonly string UPDATE_CLIENT_FOLDER_NAME = "Melodarr.Update" + Path.DirectorySeparatorChar;
         private static readonly string UPDATE_LOG_FOLDER_NAME = "UpdateLogs" + Path.DirectorySeparatorChar;
 
         private static readonly Regex PARENT_PATH_END_SLASH_REGEX = new Regex(@"(?<!:)\\$", RegexOptions.Compiled);

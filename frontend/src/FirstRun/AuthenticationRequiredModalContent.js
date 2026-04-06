@@ -79,7 +79,7 @@ function AuthenticationRequiredModalContent(props) {
                   values={authenticationMethodOptions}
                   helpText={translate('AuthenticationMethodHelpText')}
                   helpTextWarning={authenticationMethod.value === 'none' ? translate('AuthenticationMethodHelpTextWarning') : undefined}
-                  helpLink="https://wiki.servarr.com/lidarr/faq#forced-authentication"
+                  helpLink="https://github.com/melodarr/melodarr/wiki" /* TODO: Update to Melodarr wiki when available */
                   onChange={onInputChange}
                   {...authenticationMethod}
                 />

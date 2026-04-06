@@ -14,7 +14,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="format-detection" content="telephone=no">
 
-    <meta name="description" content="Lidarr">
+    <meta name="description" content="Melodarr">
 
     <link
       rel="apple-touch-icon"
@@ -53,15 +53,17 @@
     <link rel="stylesheet" type="text/css" href="/Content/Fonts/fonts.css">
 
     <script>
-      window.Lidarr = {
+      window.Melodarr = {
         urlBase: '__URL_BASE__'
       };
+      // Phase 4C: Compatibility bridge for external contracts
+      window.Lidarr = window.Melodarr;
     </script>
 
     <% for (key in htmlWebpackPlugin.files.js) { %><script type="text/javascript" src="<%= htmlWebpackPlugin.files.js[key] %>" data-no-hash></script><% } %>
     <% for (key in htmlWebpackPlugin.files.css) { %><link href="<%= htmlWebpackPlugin.files.css[key] %>" rel="stylesheet"></link><% } %>
 
-    <title>Lidarr</title>
+    <title>Melodarr</title>
 
     <!--
       The super basic styling for .root  will live here,

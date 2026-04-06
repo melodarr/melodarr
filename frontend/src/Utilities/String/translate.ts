@@ -27,7 +27,7 @@ export default function translate(
   key: string,
   tokens: Record<string, string | number | boolean> = {}
 ) {
-  const { isProduction = true } = window.Lidarr;
+  const { isProduction = true } = window.Melodarr;
 
   if (!isProduction && !(key in translations)) {
     console.warn(`Missing translation for key: ${key}`);

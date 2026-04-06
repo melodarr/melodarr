@@ -1,6 +1,6 @@
 using System.Linq;
 using FluentAssertions;
-using Lidarr.Api.V1.RootFolders;
+using Melodarr.Api.V1.RootFolders;
 using NUnit.Framework;
 using NzbDrone.Core.Music;
 using NzbDrone.Core.Qualities;

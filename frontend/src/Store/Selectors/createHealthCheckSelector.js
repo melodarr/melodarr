@@ -12,7 +12,7 @@ function createHealthCheckSelector() {
           source: 'UI',
           type: 'warning',
           message: 'Could not connect to SignalR, UI won\'t update',
-          wikiUrl: 'https://wiki.servarr.com/lidarr/system#could-not-connect-to-signalr'
+          wikiUrl: 'https://github.com/melodarr/melodarr/wiki' // TODO: Update to Melodarr wiki when available
         });
       }
 

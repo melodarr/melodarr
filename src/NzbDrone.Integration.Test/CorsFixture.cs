@@ -1,5 +1,5 @@
 using FluentAssertions;
-using Lidarr.Http.Extensions;
+using Melodarr.Http.Extensions;
 using NUnit.Framework;
 using RestSharp;
 

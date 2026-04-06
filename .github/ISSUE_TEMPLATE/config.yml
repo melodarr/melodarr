@@ -3,3 +3,4 @@ contact_links:
   - name: Support via Discord
     url: https://lidarr.audio/discord
     about: Chat with users and devs on support and setup related topics.
+# TODO: Update Discord link when Melodarr-specific community is available

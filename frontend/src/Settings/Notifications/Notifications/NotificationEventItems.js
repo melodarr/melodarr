@@ -52,7 +52,7 @@ function NotificationEventItems(props) {
       <div>
         <FormInputHelpText
           text="Select which events should trigger this notification"
-          link="https://wiki.servarr.com/lidarr/settings#connections"
+          link="https://github.com/melodarr/melodarr/wiki" /* TODO: Update to Melodarr wiki when available */
         />
         <div className={styles.events}>
           <div>

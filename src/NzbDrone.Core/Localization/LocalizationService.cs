@@ -85,7 +85,7 @@ namespace NzbDrone.Core.Localization
 
         private string ReplaceTokens(string input, Dictionary<string, object> tokens)
         {
-            tokens.TryAdd("appName", "Lidarr");
+            tokens.TryAdd("appName", "Melodarr");
 
             return TokenRegex.Replace(input, (match) =>
             {

@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Lidarr.Api.V1.Albums;
+using Melodarr.Api.V1.Albums;
 using RestSharp;
 
 namespace NzbDrone.Integration.Test.Client

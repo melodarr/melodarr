@@ -1,7 +1,7 @@
 using System.Linq;
 using FluentAssertions;
-using Lidarr.Api.V1.Indexers;
-using Lidarr.Http.ClientSchema;
+using Melodarr.Api.V1.Indexers;
+using Melodarr.Http.ClientSchema;
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 using NzbDrone.Core.ThingiProvider;

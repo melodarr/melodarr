@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net8.0</TargetFrameworks>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="NBuilder" Version="6.1.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NzbDrone.Core\Melodarr.Core.csproj" />
+    <ProjectReference Include="..\NzbDrone.Test.Common\Melodarr.Test.Common.csproj" />
+    <ProjectReference Include="..\Melodarr.Http\Melodarr.Http.csproj" />
+  </ItemGroup>
+</Project>

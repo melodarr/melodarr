@@ -54,7 +54,7 @@ function MetadataProvider(props) {
                   type={inputTypes.SELECT}
                   name="writeAudioTags"
                   helpTextWarning={translate('WriteAudioTagsHelpTextWarning')}
-                  helpLink="https://wiki.servarr.com/lidarr/settings#write-metadata-to-audio-files"
+                  helpLink="https://github.com/melodarr/melodarr/wiki" /* TODO: Update to Melodarr wiki when available */
                   values={writeAudioTagOptions}
                   onChange={onInputChange}
                   {...settings.writeAudioTags}

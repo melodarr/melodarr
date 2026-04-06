@@ -108,9 +108,9 @@ class Plugins extends Component {
       modalTitle = `Plugin ${actionText} - ${translate('RestartRequired')}`;
 
       if (pluginDetailsUrl) {
-        modalMessage = `Plugin: [${pluginOwner}/${pluginName}]${versionText}${branchText}\n\nInstalled from:\n${pluginDetailsUrl}\n\nPlease restart Lidarr to apply changes.`;
+        modalMessage = `Plugin: [${pluginOwner}/${pluginName}]${versionText}${branchText}\n\nInstalled from:\n${pluginDetailsUrl}\n\nPlease restart Melodarr to apply changes.`;
       } else {
-        modalMessage = `Plugin: [${pluginOwner}/${pluginName}]${versionText}${branchText}\n\nPlugin ${actionText} successfully.\n\nPlease restart Lidarr to apply changes.`;
+        modalMessage = `Plugin: [${pluginOwner}/${pluginName}]${versionText}${branchText}\n\nPlugin ${actionText} successfully.\n\nPlease restart Melodarr to apply changes.`;
       }
     }
 
@@ -126,7 +126,7 @@ class Plugins extends Component {
                   type={inputTypes.TEXT}
                   name="repoUrl"
                   helpText="URL to GitHub repository containing plugin"
-                  helpLink="https://wiki.servarr.com/lidarr/plugins"
+                  helpLink="https://github.com/melodarr/melodarr/wiki" /* TODO: Update to Melodarr wiki when available */
                   value={repoUrl}
                   onChange={this.onInputChange}
                 />

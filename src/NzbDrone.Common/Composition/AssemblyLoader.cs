@@ -16,8 +16,8 @@ namespace NzbDrone.Common.Composition
             "Lidarr.Host",
             "Lidarr.Core",
             "Lidarr.SignalR",
-            "Lidarr.Api.V1",
-            "Lidarr.Http"
+            "Melodarr.Api.V1",
+            "Melodarr.Http"
         };
 
         private static readonly string[] UpdateAssemblies = { "Lidarr.Update" };

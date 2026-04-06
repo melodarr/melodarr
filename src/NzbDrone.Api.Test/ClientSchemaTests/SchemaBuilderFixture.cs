@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using FluentAssertions;
-using Lidarr.Http.ClientSchema;
+using Melodarr.Http.ClientSchema;
 using Moq;
 using NUnit.Framework;
 using NzbDrone.Core.Annotations;

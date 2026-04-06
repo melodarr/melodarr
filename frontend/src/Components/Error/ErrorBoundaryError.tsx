@@ -45,7 +45,7 @@ function ErrorBoundaryError(props: ErrorBoundaryErrorProps) {
       <div className={styles.imageContainer}>
         <img
           className={styles.image}
-          src={`${window.Lidarr.urlBase}/Content/Images/error.png`}
+          src={`${window.Melodarr.urlBase}/Content/Images/error.png`}
         />
       </div>
 
@@ -64,7 +64,7 @@ function ErrorBoundaryError(props: ErrorBoundaryErrorProps) {
           <div>{info.componentStack}</div>
         )}
 
-        {<div className={styles.version}>Version: {window.Lidarr.version}</div>}
+        {<div className={styles.version}>Version: {window.Melodarr.version}</div>}
       </details>
     </div>
   );

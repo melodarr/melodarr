@@ -9,11 +9,11 @@ variables:
   testsFolder: './_tests'
   yarnCacheFolder: $(Pipeline.Workspace)/.yarn
   nugetCacheFolder: $(Pipeline.Workspace)/.nuget/packages
-  majorVersion: '3.1.2'
-  minorVersion: $[counter('minorVersion', 1076)]
-  lidarrVersion: '$(majorVersion).$(minorVersion)'
-  buildName: '$(Build.SourceBranchName).$(lidarrVersion)'
-  sentryOrg: 'servarr'
+  majorVersion: '0.1.0'
+  minorVersion: $[counter('minorVersion', 0)]
+  melodarrVersion: '$(majorVersion)-alpha.$(minorVersion)'
+  buildName: '$(Build.SourceBranchName).$(melodarrVersion)'
+  sentryOrg: 'melodarr'
   sentryUrl: 'https://sentry.servarr.com'
   dotnetVersion: '8.0.405'
   nodeVersion: '20.X'
@@ -52,7 +52,7 @@ stages:
         vmImage: ${{ variables.linuxImage }}
       steps:
       # Set the build name properly.  The 'name' property won't recursively expand so hack here:
-      - bash: echo "##vso[build.updatebuildnumber]$LIDARRVERSION"
+      - bash: echo "##vso[build.updatebuildnumber]$MELODARRVERSION"
         displayName: Set Build Name
       - bash: |
           if [[ $BUILD_REASON == "PullRequest" ]]; then
@@ -110,7 +110,7 @@ stages:
           fi
         displayName: Enable Extra Platform Support
       - bash: ./build.sh --backend --enable-extra-platforms
-        displayName: Build Lidarr Backend
+        displayName: Build Melodarr Backend
       - bash: |
           find ${OUTPUTFOLDER} -type f ! -path "*/publish/*" -exec rm -rf {} \;
           find ${OUTPUTFOLDER} -depth -empty -type d -exec rm -r "{}" \;
@@ -177,7 +177,7 @@ stages:
           path: $(yarnCacheFolder)
         displayName: Cache Yarn packages
       - bash: ./build.sh --frontend
-        displayName: Build Lidarr Frontend
+        displayName: Build Melodarr Frontend
         env:
           FORCE_COLOR: 0
           YARN_CACHE_FOLDER: $(yarnCacheFolder)
@@ -356,8 +356,8 @@ stages:
       - bash: |
           echo "Uploading source maps to sentry"
           curl -sL https://sentry.io/get-cli/ | bash
-          RELEASENAME="Lidarr@${LIDARRVERSION}-${BUILD_SOURCEBRANCHNAME}"
-          sentry-cli releases new --finalize -p lidarr -p lidarr-ui -p lidarr-update "${RELEASENAME}"
+          RELEASENAME="Melodarr@${MELODARRVERSION}-${BUILD_SOURCEBRANCHNAME}"
+          sentry-cli releases new --finalize -p melodarr -p melodarr-ui -p melodarr-update "${RELEASENAME}"
           sentry-cli releases -p lidarr-ui files "${RELEASENAME}" upload-sourcemaps _output/UI/ --rewrite
           sentry-cli releases set-commits --auto "${RELEASENAME}"
           if [[ ${BUILD_SOURCEBRANCH} == "refs/heads/develop" ]]; then
@@ -1186,7 +1186,7 @@ stages:
           projectVersion: '$(lidarrVersion)'
           extraProperties: |
             sonar.exclusions=**/obj/**,**/*.dll,**/NzbDrone.Core.Test/Files/**/*,./frontend/**,**/ExternalModules/**,./src/Libraries/**
-            sonar.coverage.exclusions=**/Lidarr.Api.V1/**/*
+            sonar.coverage.exclusions=**/Melodarr.Api.V1/**/*
             sonar.cs.cobertura.reportsPaths=$(Build.SourcesDirectory)/CoverageResults/**/coverage.cobertura.xml
             sonar.cs.nunit.reportsPaths=$(Build.SourcesDirectory)/TestResult.xml
       - bash: |

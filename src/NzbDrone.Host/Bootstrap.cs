@@ -188,12 +188,12 @@ namespace NzbDrone.Host
                 })
                 .ConfigureServices(services =>
                 {
-                    services.Configure<PostgresOptions>(config.GetSection("Lidarr:Postgres"));
-                    services.Configure<AppOptions>(config.GetSection("Lidarr:App"));
-                    services.Configure<AuthOptions>(config.GetSection("Lidarr:Auth"));
-                    services.Configure<ServerOptions>(config.GetSection("Lidarr:Server"));
-                    services.Configure<LogOptions>(config.GetSection("Lidarr:Log"));
-                    services.Configure<UpdateOptions>(config.GetSection("Lidarr:Update"));
+                    services.Configure<PostgresOptions>(GetBridgedSection(config, "Postgres"));
+                    services.Configure<AppOptions>(GetBridgedSection(config, "App"));
+                    services.Configure<AuthOptions>(GetBridgedSection(config, "Auth"));
+                    services.Configure<ServerOptions>(GetBridgedSection(config, "Server"));
+                    services.Configure<LogOptions>(GetBridgedSection(config, "Log"));
+                    services.Configure<UpdateOptions>(GetBridgedSection(config, "Update"));
                 }).Build();
         }
 
@@ -201,13 +201,13 @@ namespace NzbDrone.Host
         {
             var config = GetConfiguration(context);
 
-            var bindAddress = config.GetValue<string>($"Lidarr:Server:{nameof(ServerOptions.BindAddress)}") ?? config.GetValue(nameof(ConfigFileProvider.BindAddress), "*");
-            var port = config.GetValue<int?>($"Lidarr:Server:{nameof(ServerOptions.Port)}") ?? config.GetValue(nameof(ConfigFileProvider.Port), 8686);
-            var sslPort = config.GetValue<int?>($"Lidarr:Server:{nameof(ServerOptions.SslPort)}") ?? config.GetValue(nameof(ConfigFileProvider.SslPort), 6868);
-            var enableSsl = config.GetValue<bool?>($"Lidarr:Server:{nameof(ServerOptions.EnableSsl)}") ?? config.GetValue(nameof(ConfigFileProvider.EnableSsl), false);
-            var sslCertPath = config.GetValue<string>($"Lidarr:Server:{nameof(ServerOptions.SslCertPath)}") ?? config.GetValue<string>(nameof(ConfigFileProvider.SslCertPath));
-            var sslCertPassword = config.GetValue<string>($"Lidarr:Server:{nameof(ServerOptions.SslCertPassword)}") ?? config.GetValue<string>(nameof(ConfigFileProvider.SslCertPassword));
-            var logDbEnabled = config.GetValue<bool?>($"Lidarr:Log:{nameof(LogOptions.DbEnabled)}") ?? config.GetValue(nameof(ConfigFileProvider.LogDbEnabled), true);
+            var bindAddress = GetBridgedValue<string>(config, $"Server:{nameof(ServerOptions.BindAddress)}") ?? config.GetValue(nameof(ConfigFileProvider.BindAddress), "*");
+            var port = GetBridgedValue<int?>(config, $"Server:{nameof(ServerOptions.Port)}") ?? config.GetValue(nameof(ConfigFileProvider.Port), 8686);
+            var sslPort = GetBridgedValue<int?>(config, $"Server:{nameof(ServerOptions.SslPort)}") ?? config.GetValue(nameof(ConfigFileProvider.SslPort), 6868);
+            var enableSsl = GetBridgedValue<bool?>(config, $"Server:{nameof(ServerOptions.EnableSsl)}") ?? config.GetValue(nameof(ConfigFileProvider.EnableSsl), false);
+            var sslCertPath = GetBridgedValue<string>(config, $"Server:{nameof(ServerOptions.SslCertPath)}") ?? config.GetValue<string>(nameof(ConfigFileProvider.SslCertPath));
+            var sslCertPassword = GetBridgedValue<string>(config, $"Server:{nameof(ServerOptions.SslCertPassword)}") ?? config.GetValue<string>(nameof(ConfigFileProvider.SslCertPassword));
+            var logDbEnabled = GetBridgedValue<bool?>(config, $"Log:{nameof(LogOptions.DbEnabled)}") ?? config.GetValue(nameof(ConfigFileProvider.LogDbEnabled), true);
 
             var urls = new List<string> { BuildUrl("http", bindAddress, port) };
 
@@ -249,12 +249,12 @@ namespace NzbDrone.Host
                 })
                 .ConfigureServices(services =>
                 {
-                    services.Configure<PostgresOptions>(config.GetSection("Lidarr:Postgres"));
-                    services.Configure<AppOptions>(config.GetSection("Lidarr:App"));
-                    services.Configure<AuthOptions>(config.GetSection("Lidarr:Auth"));
-                    services.Configure<ServerOptions>(config.GetSection("Lidarr:Server"));
-                    services.Configure<LogOptions>(config.GetSection("Lidarr:Log"));
-                    services.Configure<UpdateOptions>(config.GetSection("Lidarr:Update"));
+                    services.Configure<PostgresOptions>(GetBridgedSection(config, "Postgres"));
+                    services.Configure<AppOptions>(GetBridgedSection(config, "App"));
+                    services.Configure<AuthOptions>(GetBridgedSection(config, "Auth"));
+                    services.Configure<ServerOptions>(GetBridgedSection(config, "Server"));
+                    services.Configure<LogOptions>(GetBridgedSection(config, "Log"));
+                    services.Configure<UpdateOptions>(GetBridgedSection(config, "Update"));
                 })
                 .ConfigureWebHost(builder =>
                 {
@@ -337,7 +337,7 @@ namespace NzbDrone.Host
             {
                 Logger.Error(ex, ex.Message);
 
-                throw new InvalidConfigFileException($"{configPath} is corrupt or invalid. Please delete the config file and Lidarr will recreate it.", ex);
+                throw new InvalidConfigFileException($"{configPath} is corrupt or invalid. Please delete the config file and Melodarr will recreate it.", ex);
             }
         }
 
@@ -366,6 +366,39 @@ namespace NzbDrone.Host
             }
 
             return certificate;
+        }
+
+        private static IConfigurationSection GetBridgedSection(IConfiguration config, string sectionName)
+        {
+            var melodarrSection = config.GetSection($"Melodarr:{sectionName}");
+            if (melodarrSection.Exists())
+            {
+                return melodarrSection;
+            }
+
+            // Phase 4C: Legacy configuration bridge
+            return config.GetSection($"Lidarr:{sectionName}");
+        }
+
+        private static T GetBridgedValue<T>(IConfiguration config, string key, T defaultValue = default)
+        {
+            var melodarrKey = $"Melodarr:{key}";
+            var lidarrKey = $"Lidarr:{key}";
+
+            var melodarrSection = config.GetSection(melodarrKey);
+            if (melodarrSection.Exists())
+            {
+                return config.GetValue<T>(melodarrKey);
+            }
+
+            var lidarrSection = config.GetSection(lidarrKey);
+            if (lidarrSection.Exists())
+            {
+                // Phase 4C: Legacy configuration bridge
+                return config.GetValue<T>(lidarrKey);
+            }
+
+            return defaultValue;
         }
     }
 }

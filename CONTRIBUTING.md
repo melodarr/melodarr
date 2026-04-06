@@ -1,15 +1,17 @@
 
 # How to Contribute
 
-We're always looking for people to help make Lidarr even better, there are a number of ways to contribute.
+We're always looking for people to help make Melodarr even better, there are a number of ways to contribute.
 
 # Documentation
 
-Setup guides, [FAQ](/lidarr/faq), the more information we have on the [wiki](https://wiki.servarr.com/lidarr) the better.
+Setup guides, FAQ, the more information we have on the wiki the better.
+
+<!-- TODO: Update wiki and FAQ links when Melodarr-specific documentation is available -->
 
 # Development
 
-Lidarr is written in C# (backend) and JS (frontend). The backend is built on the .NET 8 framework, while the frontend utilizes Reactjs.
+Melodarr is written in C# (backend) and JS (frontend). The backend is built on the .NET 8 framework, while the frontend utilizes Reactjs.
 
 ## Tools required
 
@@ -33,7 +35,7 @@ Lidarr is written in C# (backend) and JS (frontend). The backend is built on the
 
 ## Getting started
 
-1. Fork Lidarr
+1. Fork Melodarr
 1. Clone the repository into your development machine. [*info*](https://docs.github.com/en/get-started/quickstart/fork-a-repo)
 
 > Be sure to run lint `yarn lint --fix` on your code for any front end changes before committing.
@@ -60,11 +62,11 @@ The backend solution is most easily built and ran in Visual Studio or Rider, how
 
 #### Visual Studio
 
-> Ensure startup project is set to `Lidarr.Console` and framework to `net8.0`
+> Ensure startup project is set to `Lidarr.Console` and framework to `net8.0` (Note: project names retain the Lidarr prefix for build compatibility)
 {.is-info}
 
 1. First `Build` the solution in Visual Studio, this will ensure all projects are correctly built and dependencies restored
-1. Next `Debug/Run` the project in Visual Studio to start Lidarr
+1. Next `Debug/Run` the project in Visual Studio to start Melodarr
 1. Open <http://localhost:8686>
 
 #### Command line
@@ -85,8 +87,8 @@ dotnet msbuild -restore src/Lidarr.sln -p:Configuration=Debug -p:Platform=Posix 
 
 ## Contributing Code
 
-- If you're adding a new, already requested feature, please comment on [GitHub Issues](https://github.com/Lidarr/Lidarr/issues) so work is not duplicated (If you want to add something not already on there, please talk to us first)
-- Rebase from Lidarr's develop branch, do not merge
+- If you're adding a new, already requested feature, please comment on GitHub Issues so work is not duplicated (If you want to add something not already on there, please talk to us first)
+- Rebase from Melodarr's develop branch, do not merge
 - Make meaningful commits, or squash them
 - Feel free to make a pull request before work is complete, this will let us see where its at and make comments/suggest improvements
 - Reach out to us on the discord if you have any questions
@@ -109,7 +111,7 @@ dotnet msbuild -restore src/Lidarr.sln -p:Configuration=Debug -p:Platform=Posix 
 
 ## Unit Testing
 
-Lidarr utilizes nunit for its unit, integration, and automation test suite.
+Melodarr utilizes nunit for its unit, integration, and automation test suite.
 
 ### Running Tests
 
@@ -136,20 +138,22 @@ If you have any questions about any of this, please let us know.
 
 # Translation
 
-Lidarr uses a self hosted open access [Weblate](https://translate.servarr.com) instance to manage its json translation files. These files are stored in the repo at `src/NzbDrone.Core/Localization`
+Melodarr uses a self hosted open access [Weblate](https://translate.servarr.com) instance to manage its json translation files. These files are stored in the repo at `src/NzbDrone.Core/Localization`
+
+<!-- TODO: Set up Melodarr-specific Weblate project when ready -->
 
 ## Contributing to an Existing Translation
 
-Weblate handles synchronization and translation of strings for all languages other than English. Editing of translated strings and translating existing strings for supported languages should be performed there for the Lidarr project.
+Weblate handles synchronization and translation of strings for all languages other than English. Editing of translated strings and translating existing strings for supported languages should be performed there for the Melodarr project.
 
 The English translation, `en.json`, serves as the source for all other translations and is managed on GitHub repo.
 
 ## Adding a Language
 
-Adding translations to Lidarr requires two steps
+Adding translations to Melodarr requires two steps
 
 - Adding the Language to weblate
-- Adding the Language to Lidarr codebase
+- Adding the Language to Melodarr codebase
 
 ## Adding Translation Strings in Code
 

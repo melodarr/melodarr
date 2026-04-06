@@ -1,6 +1,6 @@
 using FluentAssertions;
-using Lidarr.Api.V1.Artist;
-using Lidarr.Api.V1.Blocklist;
+using Melodarr.Api.V1.Artist;
+using Melodarr.Api.V1.Blocklist;
 using NUnit.Framework;
 
 namespace NzbDrone.Integration.Test.ApiTests

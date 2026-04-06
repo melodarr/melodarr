@@ -58,8 +58,8 @@ class PageHeader extends Component {
           >
             <img
               className={styles.logo}
-              src={`${window.Lidarr.urlBase}/Content/Images/logo.svg`}
-              alt="Lidarr Logo"
+              src={`${window.Melodarr.urlBase}/Content/Images/logo.svg`}
+              alt="Melodarr Logo"
             />
           </Link>
         </div>
@@ -79,7 +79,7 @@ class PageHeader extends Component {
             className={styles.donate}
             name={icons.HEART}
             aria-label="Donate"
-            to="https://lidarr.audio/donate"
+            to="https://github.com/melodarr/melodarr" /* TODO: Set up Melodarr donations page */
             size={14}
             title={translate('Donate')}
           />
@@ -88,7 +88,7 @@ class PageHeader extends Component {
             className={styles.translation}
             title={translate('SuggestTranslationChange')}
             name={icons.TRANSLATE}
-            to="https://translate.servarr.com/projects/servarr/lidarr/"
+            to="https://github.com/melodarr/melodarr" /* TODO: Set up Melodarr translations */
             size={24}
           />
 

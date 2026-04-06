@@ -17,32 +17,36 @@ class MoreInfo extends Component {
         <DescriptionList>
           <DescriptionListItemTitle>Home page</DescriptionListItemTitle>
           <DescriptionListItemDescription>
-            <Link to="https://lidarr.audio/">lidarr.audio</Link>
+            {/* TODO: Set up Melodarr website */}
+            <Link to="https://github.com/melodarr/melodarr">github.com/melodarr/melodarr</Link>
           </DescriptionListItemDescription>
 
           <DescriptionListItemTitle>Wiki</DescriptionListItemTitle>
           <DescriptionListItemDescription>
-            <Link to="https://wiki.servarr.com/lidarr">wiki.servarr.com/lidarr</Link>
+            {/* TODO: Set up Melodarr wiki */}
+            <Link to="https://github.com/melodarr/melodarr/wiki">github.com/melodarr/melodarr/wiki</Link>
           </DescriptionListItemDescription>
 
           <DescriptionListItemTitle>Reddit</DescriptionListItemTitle>
           <DescriptionListItemDescription>
-            <Link to="https://www.reddit.com/r/Lidarr/">/r/Lidarr</Link>
+            {/* TODO: Set up Melodarr subreddit */}
+            <Link to="https://www.reddit.com/r/Melodarr/">/r/Melodarr</Link>
           </DescriptionListItemDescription>
 
           <DescriptionListItemTitle>Discord</DescriptionListItemTitle>
           <DescriptionListItemDescription>
-            <Link to="https://lidarr.audio/discord">lidarr.audio/discord</Link>
+            {/* TODO: Set up Melodarr Discord */}
+            <Link to="https://github.com/melodarr/melodarr/discussions">github.com/melodarr/melodarr/discussions</Link>
           </DescriptionListItemDescription>
 
           <DescriptionListItemTitle>Source</DescriptionListItemTitle>
           <DescriptionListItemDescription>
-            <Link to="https://github.com/lidarr/Lidarr/">github.com/Lidarr/Lidarr</Link>
+            <Link to="https://github.com/melodarr/melodarr/">github.com/melodarr/melodarr</Link>
           </DescriptionListItemDescription>
 
           <DescriptionListItemTitle>Feature Requests</DescriptionListItemTitle>
           <DescriptionListItemDescription>
-            <Link to="https://github.com/lidarr/Lidarr/issues">github.com/Lidarr/Lidarr/issues</Link>
+            <Link to="https://github.com/melodarr/melodarr/issues">github.com/melodarr/melodarr/issues</Link>
           </DescriptionListItemDescription>
 
         </DescriptionList>

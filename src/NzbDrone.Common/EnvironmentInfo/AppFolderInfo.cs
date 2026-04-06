@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Reflection;
 using NLog;
@@ -33,8 +33,11 @@ namespace NzbDrone.Common.EnvironmentInfo
             }
             else
             {
-                AppDataFolder = Path.Combine(Environment.GetFolderPath(_dataSpecialFolder, Environment.SpecialFolderOption.DoNotVerify), "Lidarr");
+                var fallbackMelodarr = Path.Combine(Environment.GetFolderPath(_dataSpecialFolder, Environment.SpecialFolderOption.DoNotVerify), "Melodarr");
+                AppDataFolder = MigrateLegacyParentFolder(fallbackMelodarr);
             }
+
+            MigrateLegacyDatabase(AppDataFolder);
 
             StartUpFolder = new FileInfo(Assembly.GetExecutingAssembly().Location).Directory.FullName;
             TempFolder = Path.GetTempPath();
@@ -45,5 +48,60 @@ namespace NzbDrone.Common.EnvironmentInfo
         public string StartUpFolder { get; }
 
         public string TempFolder { get; }
+
+        private string MigrateLegacyParentFolder(string targetMelodarrPath)
+        {
+            var legacyLidarrPath = Path.Combine(Environment.GetFolderPath(_dataSpecialFolder, Environment.SpecialFolderOption.DoNotVerify), "Lidarr");
+
+            if (!Directory.Exists(targetMelodarrPath) && Directory.Exists(legacyLidarrPath))
+            {
+                try
+                {
+                    Logger.Info("Attempting to migrate legacy Lidarr config folder to Melodarr...");
+                    Directory.Move(legacyLidarrPath, targetMelodarrPath);
+                    Logger.Info("Successfully migrated legacy folder to: {0}", targetMelodarrPath);
+                    return targetMelodarrPath;
+                }
+                catch (Exception ex)
+                {
+                    Logger.Warn(ex, "Could not rename legacy Lidarr folder to Melodarr. Falling back to using legacy path.");
+                    return legacyLidarrPath; // Fallback to ensure we don't break install
+                }
+            }
+            return targetMelodarrPath;
+        }
+
+        private void MigrateLegacyDatabase(string resolvedAppDataFolder)
+        {
+            if (!Directory.Exists(resolvedAppDataFolder)) return;
+
+            var melodarrDbPath = Path.Combine(resolvedAppDataFolder, "melodarr.db");
+            var lidarrDbPath = Path.Combine(resolvedAppDataFolder, "lidarr.db");
+
+            if (!File.Exists(melodarrDbPath) && File.Exists(lidarrDbPath))
+            {
+                try
+                {
+                    Logger.Info("Found legacy lidarr.db in AppData. Migrating database names to melodarr.db...");
+                    
+                    var legacyFiles = new[] { "", "-journal", "-shm", "-wal" };
+                    foreach (var ext in legacyFiles)
+                    {
+                        var source = Path.Combine(resolvedAppDataFolder, $"lidarr.db{ext}");
+                        var target = Path.Combine(resolvedAppDataFolder, $"melodarr.db{ext}");
+                        
+                        if (File.Exists(source))
+                        {
+                            File.Move(source, target);
+                        }
+                    }
+                    Logger.Info("Database names successfully migrated.");
+                }
+                catch (Exception ex)
+                {
+                    Logger.Error(ex, "Failed to migrate legacy lidarr.db name. Manual intervention may be required.");
+                }
+            }
+        }
     }
 }

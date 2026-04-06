@@ -54,7 +54,7 @@ class RemotePathMappings extends Component {
         >
 
           <Alert kind={kinds.INFO}>
-            <InlineMarkdown data={translate('RemotePathMappingsInfo', { app: 'Lidarr', wikiLink: 'https://wiki.servarr.com/lidarr/settings#remote-path-mappings' })} />
+            <InlineMarkdown data={translate('RemotePathMappingsInfo', { app: 'Melodarr', wikiLink: 'https://github.com/melodarr/melodarr/wiki' })} /> {/* TODO: Update to Melodarr wiki when available */}
           </Alert>
 
           <div className={styles.remotePathMappingsHeader}>

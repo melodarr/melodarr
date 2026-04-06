@@ -1,7 +1,7 @@
 using System.Linq;
 using System.Net;
 using FluentAssertions;
-using Lidarr.Api.V1.Indexers;
+using Melodarr.Api.V1.Indexers;
 using NUnit.Framework;
 
 namespace NzbDrone.Integration.Test.ApiTests

@@ -437,12 +437,12 @@ namespace NzbDrone.Core.Configuration
 
                         if (contents.IsNullOrWhiteSpace())
                         {
-                            throw new InvalidConfigFileException($"{_configFile} is empty. Please delete the config file and Lidarr will recreate it.");
+                            throw new InvalidConfigFileException($"{_configFile} is empty. Please delete the config file and Melodarr will recreate it.");
                         }
 
                         if (contents.All(char.IsControl))
                         {
-                            throw new InvalidConfigFileException($"{_configFile} is corrupt. Please delete the config file and Lidarr will recreate it.");
+                            throw new InvalidConfigFileException($"{_configFile} is corrupt. Please delete the config file and Melodarr will recreate it.");
                         }
 
                         var xDoc = XDocument.Parse(_diskProvider.ReadAllText(_configFile));
@@ -450,7 +450,7 @@ namespace NzbDrone.Core.Configuration
 
                         if (config.Count != 1)
                         {
-                            throw new InvalidConfigFileException($"{_configFile} is invalid. Please delete the config file and Lidarr will recreate it.");
+                            throw new InvalidConfigFileException($"{_configFile} is invalid. Please delete the config file and Melodarr will recreate it.");
                         }
 
                         return xDoc;
@@ -464,11 +464,11 @@ namespace NzbDrone.Core.Configuration
             }
             catch (XmlException ex)
             {
-                throw new InvalidConfigFileException($"{_configFile} is corrupt is invalid. Please delete the config file and Lidarr will recreate it.", ex);
+                throw new InvalidConfigFileException($"{_configFile} is corrupt is invalid. Please delete the config file and Melodarr will recreate it.", ex);
             }
             catch (UnauthorizedAccessException ex)
             {
-                throw new AccessDeniedConfigFileException($"Lidarr does not have access to config file: {_configFile}. Please fix permissions", ex);
+                throw new AccessDeniedConfigFileException($"Melodarr does not have access to config file: {_configFile}. Please fix permissions", ex);
             }
         }
 
@@ -483,7 +483,7 @@ namespace NzbDrone.Core.Configuration
             }
             catch (UnauthorizedAccessException ex)
             {
-                throw new AccessDeniedConfigFileException($"Lidarr does not have access to config file: {_configFile}. Please fix permissions", ex);
+                throw new AccessDeniedConfigFileException($"Melodarr does not have access to config file: {_configFile}. Please fix permissions", ex);
             }
         }
 

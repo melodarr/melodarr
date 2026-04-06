@@ -66,7 +66,7 @@ Build()
     rm -rf $outputFolder
     rm -rf $testPackageFolder
 
-    slnFile=src/Lidarr.sln
+    slnFile=src/Melodarr.sln
 
     if [ $os = "windows" ]; then
         platform=Windows

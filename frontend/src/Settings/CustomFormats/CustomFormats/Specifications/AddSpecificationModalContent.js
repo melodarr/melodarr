@@ -52,11 +52,11 @@ class AddSpecificationModalContent extends Component {
 
                 <Alert kind={kinds.INFO}>
                   <div>
-                    {'Lidarr supports custom conditions against the release properties below.'}
+                    {'Melodarr supports custom conditions against the release properties below.'}
                   </div>
                   <div>
                     {'Visit the wiki for more details: '}
-                    <Link to="https://wiki.servarr.com/lidarr/settings#custom-formats-2">{'Wiki'}</Link>
+                    <Link to="https://github.com/melodarr/melodarr/wiki">{'Wiki'}</Link> {/* TODO: Update to Melodarr wiki when available */}
                   </div>
                 </Alert>
 

@@ -1,6 +1,6 @@
 using System;
 using FluentAssertions;
-using Lidarr.Api.V1.RootFolders;
+using Melodarr.Api.V1.RootFolders;
 using NUnit.Framework;
 
 namespace NzbDrone.Integration.Test.ApiTests
