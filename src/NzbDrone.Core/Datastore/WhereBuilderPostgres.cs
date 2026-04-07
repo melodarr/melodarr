@@ -75,6 +75,10 @@ namespace NzbDrone.Core.Datastore
                     ParseEndsWith(expression);
                     break;
 
+                case "op_Implicit":
+                    Visit(expression.Arguments[0]);
+                    break;
+
                 default:
                     var msg = string.Format("'{0}' expressions are not yet implemented in the where clause expression tree parser.", method);
                     throw new NotImplementedException(msg);
@@ -300,13 +304,18 @@ namespace NzbDrone.Core.Datastore
             {
                 // Static method
                 // Must be Enumerable.Contains(source, item)
-                if (body.Method.DeclaringType != typeof(Enumerable) || body.Arguments.Count != 2)
+                if ((body.Method.DeclaringType?.Name != "Enumerable" && body.Method.DeclaringType?.Name != "MemoryExtensions") || body.Arguments.Count < 2)
                 {
-                    throw new NotSupportedException("Unexpected form of Enumerable.Contains");
+                    throw new NotSupportedException($"Unexpected form of Enumerable.Contains: DeclaringType={body.Method.DeclaringType?.FullName}, ArgsCount={body.Arguments.Count}");
                 }
 
                 list = body.Arguments[0];
                 item = body.Arguments[1];
+            }
+
+            if (list is MethodCallExpression methodCall && methodCall.Method.Name == "op_Implicit")
+            {
+                list = methodCall.Arguments[0];
             }
 
             _sb.Append('(');

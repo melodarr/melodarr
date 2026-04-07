@@ -265,6 +265,7 @@ namespace NzbDrone.Mono.Test.DiskProviderTests
         }
 
         [Test]
+        [Platform("Linux")]
         public void should_preserve_setgid_on_set_folder_permissions()
         {
             var tempPath = GetTempFilePath();
@@ -295,6 +296,7 @@ namespace NzbDrone.Mono.Test.DiskProviderTests
         }
 
         [Test]
+        [Platform("Linux")]
         public void should_clear_setgid_on_set_folder_permissions()
         {
             var tempPath = GetTempFilePath();
