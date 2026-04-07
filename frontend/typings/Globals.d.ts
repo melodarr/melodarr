@@ -1,7 +1,7 @@
 declare module '*.module.css';
 
 interface Window {
-  Lidarr: {
+  Melodarr: {
     apiKey: string;
     instanceName: string;
     theme: string;
@@ -9,4 +9,5 @@ interface Window {
     version: string;
     isProduction: boolean;
   };
+  Lidarr: Window['Melodarr'];
 }
