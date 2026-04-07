@@ -17,11 +17,11 @@ ProgressEnd()
 
 UpdateVersionNumber()
 {
-    if [ "$LIDARRVERSION" != "" ]; then
+    if [ "$MELODARRVERSION" != "" ]; then
         echo "Updating Version Info"
-        sed -i'' -e "s/<AssemblyVersion>[0-9.*]\+<\/AssemblyVersion>/<AssemblyVersion>$LIDARRVERSION<\/AssemblyVersion>/g" src/Directory.Build.props
+        sed -i'' -e "s/<AssemblyVersion>[0-9.*]\+<\/AssemblyVersion>/<AssemblyVersion>$MELODARRVERSION<\/AssemblyVersion>/g" src/Directory.Build.props
         sed -i'' -e "s/<AssemblyConfiguration>[\$()A-Za-z-]\+<\/AssemblyConfiguration>/<AssemblyConfiguration>${BUILD_SOURCEBRANCHNAME}<\/AssemblyConfiguration>/g" src/Directory.Build.props
-        sed -i'' -e "s/<string>10.0.0.0<\/string>/<string>$LIDARRVERSION<\/string>/g" distribution/osx/Lidarr.app/Contents/Info.plist
+        sed -i'' -e "s/<string>10.0.0.0<\/string>/<string>$MELODARRVERSION<\/string>/g" distribution/osx/Melodarr.app/Contents/Info.plist
     fi
 }
 
@@ -110,7 +110,7 @@ PackageFiles()
     rm -rf $folder
     mkdir -p $folder
     cp -r $outputFolder/$framework/$runtime/publish/* $folder
-    cp -r $outputFolder/Lidarr.Update/$framework/$runtime/publish $folder/Lidarr.Update
+    cp -r $outputFolder/Melodarr.Update/$framework/$runtime/publish $folder/Melodarr.Update
     cp -r $outputFolder/UI $folder
 
     echo "Adding LICENSE"
@@ -124,7 +124,7 @@ PackageLinux()
 
     ProgressStart "Creating $runtime Package for $framework"
 
-    local folder=$artifactsFolder/$runtime/$framework/Lidarr
+    local folder=$artifactsFolder/$runtime/$framework/Melodarr
 
     PackageFiles "$folder" "$framework" "$runtime"
 
@@ -132,14 +132,14 @@ PackageLinux()
     rm -f $folder/ServiceUninstall.*
     rm -f $folder/ServiceInstall.*
 
-    echo "Removing Lidarr.Windows"
-    rm $folder/Lidarr.Windows.*
+    echo "Removing Melodarr.Windows"
+    rm $folder/Melodarr.Windows.*
 
-    echo "Adding Lidarr.Mono to UpdatePackage"
-    cp $folder/Lidarr.Mono.* $folder/Lidarr.Update
+    echo "Adding Melodarr.Mono to UpdatePackage"
+    cp $folder/Melodarr.Mono.* $folder/Melodarr.Update
     if [ "$framework" = "net8.0" ]; then
-        cp $folder/Mono.Posix.NETStandard.* $folder/Lidarr.Update
-        cp $folder/libMonoPosixHelper.* $folder/Lidarr.Update
+        cp $folder/Mono.Posix.NETStandard.* $folder/Melodarr.Update
+        cp $folder/libMonoPosixHelper.* $folder/Melodarr.Update
     fi
 
     ProgressEnd "Creating $runtime Package for $framework"
@@ -152,7 +152,7 @@ PackageMacOS()
     
     ProgressStart "Creating $runtime Package for $framework"
 
-    local folder=$artifactsFolder/$runtime/$framework/Lidarr
+    local folder=$artifactsFolder/$runtime/$framework/Melodarr
 
     PackageFiles "$folder" "$framework" "$runtime"
 
@@ -160,14 +160,14 @@ PackageMacOS()
     rm -f $folder/ServiceUninstall.*
     rm -f $folder/ServiceInstall.*
 
-    echo "Removing Lidarr.Windows"
-    rm $folder/Lidarr.Windows.*
+    echo "Removing Melodarr.Windows"
+    rm $folder/Melodarr.Windows.*
 
-    echo "Adding Lidarr.Mono to UpdatePackage"
-    cp $folder/Lidarr.Mono.* $folder/Lidarr.Update
+    echo "Adding Melodarr.Mono to UpdatePackage"
+    cp $folder/Melodarr.Mono.* $folder/Melodarr.Update
     if [ "$framework" = "net8.0" ]; then
-        cp $folder/Mono.Posix.NETStandard.* $folder/Lidarr.Update
-        cp $folder/libMonoPosixHelper.* $folder/Lidarr.Update
+        cp $folder/Mono.Posix.NETStandard.* $folder/Melodarr.Update
+        cp $folder/libMonoPosixHelper.* $folder/Melodarr.Update
     fi
 
     ProgressEnd 'Creating MacOS Package'
@@ -184,14 +184,14 @@ PackageMacOSApp()
 
     rm -rf $folder
     mkdir -p $folder
-    cp -r distribution/osx/Lidarr.app $folder
-    mkdir -p $folder/Lidarr.app/Contents/MacOS
+    cp -r distribution/osx/Melodarr.app $folder
+    mkdir -p $folder/Melodarr.app/Contents/MacOS
 
     echo "Copying Binaries"
-    cp -r $artifactsFolder/$runtime/$framework/Lidarr/* $folder/Lidarr.app/Contents/MacOS
+    cp -r $artifactsFolder/$runtime/$framework/Melodarr/* $folder/Melodarr.app/Contents/MacOS
 
     echo "Removing Update Folder"
-    rm -r $folder/Lidarr.app/Contents/MacOS/Lidarr.Update
+    rm -r $folder/Melodarr.app/Contents/MacOS/Melodarr.Update
 
     ProgressEnd 'Creating macOS App Package'
 }
@@ -203,18 +203,18 @@ PackageWindows()
     
     ProgressStart "Creating Windows Package for $framework"
 
-    local folder=$artifactsFolder/$runtime/$framework/Lidarr
+    local folder=$artifactsFolder/$runtime/$framework/Melodarr
     
     PackageFiles "$folder" "$framework" "$runtime"
     cp -r $outputFolder/$framework-windows/$runtime/publish/* $folder
 
-    echo "Removing Lidarr.Mono"
-    rm -f $folder/Lidarr.Mono.*
+    echo "Removing Melodarr.Mono"
+    rm -f $folder/Melodarr.Mono.*
     rm -f $folder/Mono.Posix.NETStandard.*
     rm -f $folder/libMonoPosixHelper.*
 
-    echo "Adding Lidarr.Windows to UpdatePackage"
-    cp $folder/Lidarr.Windows.* $folder/Lidarr.Update
+    echo "Adding Melodarr.Windows to UpdatePackage"
+    cp $folder/Melodarr.Windows.* $folder/Melodarr.Update
 
     ProgressEnd "Creating $runtime Package for $framework"
 }
@@ -246,7 +246,7 @@ BuildInstaller()
     local framework="$1"
     local runtime="$2"
     
-    ./_inno/ISCC.exe distribution/windows/setup/lidarr.iss "//DFramework=$framework" "//DRuntime=$runtime"
+    ./_inno/ISCC.exe distribution/windows/setup/melodarr.iss "//DFramework=$framework" "//DRuntime=$runtime"
 }
 
 InstallInno()

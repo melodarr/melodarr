@@ -15,8 +15,8 @@ RUN ./build.sh --backend --frontend --packages -f net8.0 -r linux-x64
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
 
-# The build.sh script outputs to _artifacts/net8.0/linux-x64/Lidarr (the output dir still uses the Lidarr name during the packaging phase)
-COPY --from=build /source/_artifacts/linux-x64/net8.0/Lidarr/ /app/
+# The build.sh script outputs to _artifacts/net8.0/linux-x64/Melodarr
+COPY --from=build /source/_artifacts/linux-x64/net8.0/Melodarr/ /app/
 
 # Expose standard port and set data directory mount point
 EXPOSE 8686
