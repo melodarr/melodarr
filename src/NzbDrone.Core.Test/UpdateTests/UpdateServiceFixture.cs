@@ -22,6 +22,7 @@ using NzbDrone.Test.Common.Categories;
 namespace NzbDrone.Core.Test.UpdateTests
 {
     [TestFixture]
+    [Category("Updates"), Category("External"), Category("Integration")]
     public class UpdateServiceFixture : CoreTest<InstallUpdateService>
     {
         private string _sandboxFolder;
@@ -35,8 +36,8 @@ namespace NzbDrone.Core.Test.UpdateTests
             {
                 _updatePackage = new UpdatePackage
                 {
-                    FileName = "Lidarr.develop.0.6.2.883.tar.gz",
-                    Url = "https://github.com/lidarr/Lidarr/releases/download/v0.6.2.883/Lidarr.develop.0.6.2.883.linux.tar.gz",
+                    FileName = "Melodarr.develop.0.6.2.883.tar.gz",
+                    Url = "https://github.com/melodarr/Melodarr/releases/download/v0.6.2.883/Melodarr.develop.0.6.2.883.linux.tar.gz",
                     Version = new Version("0.6.2.883")
                 };
             }
@@ -44,21 +45,21 @@ namespace NzbDrone.Core.Test.UpdateTests
             {
                 _updatePackage = new UpdatePackage
                 {
-                    FileName = "Lidarr.develop.0.6.2.883.zip",
-                    Url = "https://github.com/lidarr/Lidarr/releases/download/v0.6.2.883/Lidarr.develop.0.6.2.883.windows.zip",
+                    FileName = "Melodarr.develop.0.6.2.883.zip",
+                    Url = "https://github.com/melodarr/Melodarr/releases/download/v0.6.2.883/Melodarr.develop.0.6.2.883.windows.zip",
                     Version = new Version("0.6.2.883")
                 };
             }
 
             Mocker.GetMock<IAppFolderInfo>().SetupGet(c => c.TempFolder).Returns(TempFolder);
-            Mocker.GetMock<IAppFolderInfo>().SetupGet(c => c.StartUpFolder).Returns(@"C:\Lidarr".AsOsAgnostic);
-            Mocker.GetMock<IAppFolderInfo>().SetupGet(c => c.AppDataFolder).Returns(@"C:\ProgramData\Lidarr".AsOsAgnostic);
+            Mocker.GetMock<IAppFolderInfo>().SetupGet(c => c.StartUpFolder).Returns(@"C:\Melodarr".AsOsAgnostic);
+            Mocker.GetMock<IAppFolderInfo>().SetupGet(c => c.AppDataFolder).Returns(@"C:\ProgramData\Melodarr".AsOsAgnostic);
 
             Mocker.GetMock<ICheckUpdateService>().Setup(c => c.AvailableUpdate()).Returns(_updatePackage);
             Mocker.GetMock<IVerifyUpdates>().Setup(c => c.Verify(It.IsAny<UpdatePackage>(), It.IsAny<string>())).Returns(true);
 
             Mocker.GetMock<IProcessProvider>().Setup(c => c.GetCurrentProcess()).Returns(new ProcessInfo { Id = 12 });
-            Mocker.GetMock<IRuntimeInfo>().Setup(c => c.ExecutingApplication).Returns(@"C:\Test\Lidarr.exe");
+            Mocker.GetMock<IRuntimeInfo>().Setup(c => c.ExecutingApplication).Returns(@"C:\Test\Melodarr.exe");
 
             Mocker.GetMock<IConfigFileProvider>()
                   .SetupGet(s => s.UpdateAutomatically)
@@ -69,7 +70,7 @@ namespace NzbDrone.Core.Test.UpdateTests
                   .Returns(true);
 
             Mocker.GetMock<IDiskProvider>()
-                  .Setup(v => v.FileExists(It.Is<string>(s => s.EndsWith("Lidarr.Update".ProcessNameToExe()))))
+                  .Setup(v => v.FileExists(It.Is<string>(s => s.EndsWith("Melodarr.Update".ProcessNameToExe()))))
                   .Returns(true);
 
             _sandboxFolder = Mocker.GetMock<IAppFolderInfo>().Object.GetUpdateSandboxFolder();
@@ -154,7 +155,7 @@ namespace NzbDrone.Core.Test.UpdateTests
         public void should_return_with_warning_if_updater_doesnt_exists()
         {
             Mocker.GetMock<IDiskProvider>()
-                  .Setup(v => v.FileExists(It.Is<string>(s => s.EndsWith("Lidarr.Update".ProcessNameToExe()))))
+                  .Setup(v => v.FileExists(It.Is<string>(s => s.EndsWith("Melodarr.Update".ProcessNameToExe()))))
                   .Returns(false);
 
             Subject.Execute(new ApplicationUpdateCommand());
@@ -189,7 +190,7 @@ namespace NzbDrone.Core.Test.UpdateTests
         [Platform(Exclude = "Win")]
         public void should_run_script_if_configured()
         {
-            const string scriptPath = "/tmp/lidarr/update.sh";
+            const string scriptPath = "/tmp/melodarr/update.sh";
 
             GivenInstallScript(scriptPath);
 
@@ -202,7 +203,7 @@ namespace NzbDrone.Core.Test.UpdateTests
         [Platform(Exclude = "Win")]
         public void should_throw_if_script_is_not_set()
         {
-            const string scriptPath = "/tmp/lidarr/update.sh";
+            const string scriptPath = "/tmp/melodarr/update.sh";
 
             GivenInstallScript("");
 
@@ -216,7 +217,7 @@ namespace NzbDrone.Core.Test.UpdateTests
         [Platform(Exclude = "Win")]
         public void should_throw_if_script_is_null()
         {
-            const string scriptPath = "/tmp/lidarr/update.sh";
+            const string scriptPath = "/tmp/melodarr/update.sh";
 
             GivenInstallScript(null);
 
@@ -230,7 +231,7 @@ namespace NzbDrone.Core.Test.UpdateTests
         [Platform(Exclude = "Win")]
         public void should_throw_if_script_path_does_not_exist()
         {
-            const string scriptPath = "/tmp/lidarr/update.sh";
+            const string scriptPath = "/tmp/melodarr/update.sh";
 
             GivenInstallScript(scriptPath);
 
@@ -248,20 +249,38 @@ namespace NzbDrone.Core.Test.UpdateTests
         [IntegrationTest]
         public void Should_download_and_extract_to_temp_folder()
         {
-            UseRealHttp();
-
             var updateSubFolder = new DirectoryInfo(Mocker.GetMock<IAppFolderInfo>().Object.GetUpdateSandboxFolder());
 
             updateSubFolder.Exists.Should().BeFalse();
 
             Mocker.SetConstant<IArchiveService>(Mocker.Resolve<ArchiveService>());
 
+            var dummyZip = Path.Combine(TempFolder, "dummy.zip");
+            using (var fileStream = new FileStream(dummyZip, FileMode.Create))
+            using (var archive = new System.IO.Compression.ZipArchive(fileStream, System.IO.Compression.ZipArchiveMode.Create, true))
+            {
+                archive.CreateEntry("Melodarr/mock_update.txt");
+            }
+
+            Mocker.GetMock<IHttpClient>()
+                  .Setup(c => c.DownloadFile(It.IsAny<string>(), It.IsAny<string>()))
+                  .Callback<string, string>((url, dest) =>
+                  {
+                      var dir = Path.GetDirectoryName(dest);
+                      if (!Directory.Exists(dir))
+                      {
+                          Directory.CreateDirectory(dir);
+                      }
+
+                      File.Copy(dummyZip, dest, true);
+                  });
+
             Subject.Execute(new ApplicationUpdateCommand());
 
             updateSubFolder.Refresh();
 
             updateSubFolder.Exists.Should().BeTrue();
-            updateSubFolder.GetDirectories("Lidarr").Should().HaveCount(1);
+            updateSubFolder.GetDirectories("Melodarr").Should().HaveCount(1);
             updateSubFolder.GetDirectories().Should().HaveCount(1);
             updateSubFolder.GetFiles().Should().NotBeEmpty();
         }
@@ -269,8 +288,8 @@ namespace NzbDrone.Core.Test.UpdateTests
         [Test]
         public void should_log_error_when_app_data_is_child_of_startup_folder()
         {
-            Mocker.GetMock<IAppFolderInfo>().SetupGet(c => c.StartUpFolder).Returns(@"C:\Lidarr".AsOsAgnostic);
-            Mocker.GetMock<IAppFolderInfo>().SetupGet(c => c.AppDataFolder).Returns(@"C:\Lidarr\AppData".AsOsAgnostic);
+            Mocker.GetMock<IAppFolderInfo>().SetupGet(c => c.StartUpFolder).Returns(@"C:\Melodarr".AsOsAgnostic);
+            Mocker.GetMock<IAppFolderInfo>().SetupGet(c => c.AppDataFolder).Returns(@"C:\Melodarr\AppData".AsOsAgnostic);
 
             Assert.Throws<CommandFailedException>(() => Subject.Execute(new ApplicationUpdateCommand()));
             ExceptionVerification.ExpectedErrors(1);

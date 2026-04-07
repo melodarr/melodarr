@@ -27,14 +27,14 @@ namespace NzbDrone.Core.Test.Datastore.Migration
                     OnHealthIssue = true,
                     IncludeHealthWarnings = true,
                     OnRename = true,
-                    Name = "Gmail Lidarr",
+                    Name = "Gmail Melodarr",
                     Implementation = "Email",
                     Tags = "[]",
                     Settings = new EmailSettings48
                     {
                         Server = "smtp.gmail.com",
                         Port = 563,
-                        To = "lidarr@lidarr.audio"
+                        To = "melodarr@melodarr.audio"
                     }.ToJson(),
                     ConfigContract = "EmailSettings"
                 });

@@ -78,7 +78,7 @@ namespace NzbDrone.Core.Test.OrganizerTests.FileNameBuilderTests
 
             _trackFile = Builder<TrackFile>.CreateNew()
                 .With(e => e.Quality = new QualityModel(Quality.MP3_256))
-                .With(e => e.ReleaseGroup = "LidarrTest")
+                .With(e => e.ReleaseGroup = "MelodarrTest")
                 .With(e => e.MediaInfo = new Parser.Model.MediaInfoModel
                 {
                     AudioBitrate = 320,

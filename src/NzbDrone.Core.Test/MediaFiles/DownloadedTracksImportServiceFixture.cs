@@ -341,7 +341,7 @@ namespace NzbDrone.Core.Test.MediaFiles
         {
             GivenValidArtist();
 
-            var path = @"C:\Test\Unsorted\Artist.Title-Album.Title.2017-Lidarr".AsOsAgnostic();
+            var path = @"C:\Test\Unsorted\Artist.Title-Album.Title.2017-Melodarr".AsOsAgnostic();
             var imported = new List<ImportDecision<LocalTrack>>();
 
             Mocker.GetMock<IDiskProvider>()
@@ -375,7 +375,7 @@ namespace NzbDrone.Core.Test.MediaFiles
         {
             GivenValidArtist();
 
-            var path = @"C:\Test\Unsorted\Artist.Title-Album.Title.2017-Lidarr".AsOsAgnostic();
+            var path = @"C:\Test\Unsorted\Artist.Title-Album.Title.2017-Melodarr".AsOsAgnostic();
             var imported = new List<ImportDecision<LocalTrack>>();
 
             Mocker.GetMock<IDiskProvider>()

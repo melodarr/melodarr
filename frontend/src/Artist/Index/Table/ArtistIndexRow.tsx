@@ -30,7 +30,7 @@ import translate from 'Utilities/String/translate';
 import AlbumsCell from './AlbumsCell';
 import hasGrowableColumns from './hasGrowableColumns';
 import selectTableOptions from './selectTableOptions';
-import styles from './ArtistIndexRow.css';
+import styles from './ArtistIndexRow.module.css';
 
 interface ArtistIndexRowProps {
   artistId: number;

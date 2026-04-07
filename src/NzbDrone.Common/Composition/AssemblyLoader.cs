@@ -51,9 +51,6 @@ namespace NzbDrone.Common.Composition
                 .Select(x => AssemblyLoadContext.Default.LoadFromAssemblyPath(Path.Combine(startupPath, $"{x}.dll")))
                 .ToList();
 
-            // Platform-specific assembly is optional — it provides helpers for
-            // symlinks, permissions, etc. but is not required for basic operation.
-            // In dev (dotnet watch) it may not be in the output directory.
             var platformPath = Path.Combine(startupPath, $"{platformAssembly}.dll");
             if (File.Exists(platformPath))
             {
@@ -78,8 +75,6 @@ namespace NzbDrone.Common.Composition
 
         public static void RegisterSQLiteResolver()
         {
-            // This ensures we look for sqlite3 using libsqlite3.so.0 on Linux and not libsqlite3.so which
-            // is less likely to exist.
             var sqliteAssembly = AssemblyLoadContext.Default.LoadFromAssemblyPath(
                 Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "System.Data.SQLite.dll"));
 
@@ -89,15 +84,28 @@ namespace NzbDrone.Common.Composition
             }
             catch (InvalidOperationException)
             {
-                // This can only be set once per assembly
-                // Catch required for NzbDrone.Host tests
             }
         }
 
         private static IntPtr LoadSqliteNativeLib(string libraryName, Assembly assembly, DllImportSearchPath? dllImportSearchPath)
         {
-            var mappedName = OsInfo.IsLinux && libraryName == "sqlite3" ? "libsqlite3.so.0" : libraryName;
-            return NativeLibrary.Load(mappedName, assembly, dllImportSearchPath);
+            Console.WriteLine($"[ASSEMBLY LOADER] Requested libraryName: {libraryName}");
+
+            if (OsInfo.IsLinux && libraryName == "sqlite3")
+            {
+                return NativeLibrary.Load("libsqlite3.so.0", assembly, dllImportSearchPath);
+            }
+
+            if (OsInfo.IsOsx && libraryName.Contains("SQLite", StringComparison.OrdinalIgnoreCase))
+            {
+                if (NativeLibrary.TryLoad("libsqlite3.dylib", assembly, dllImportSearchPath, out var handle))
+                {
+                    Console.WriteLine("[ASSEMBLY LOADER] Successfully loaded libsqlite3.dylib!");
+                    return handle;
+                }
+            }
+
+            return NativeLibrary.Load(libraryName, assembly, dllImportSearchPath);
         }
     }
 }

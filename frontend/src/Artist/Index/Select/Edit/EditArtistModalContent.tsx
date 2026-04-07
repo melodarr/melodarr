@@ -10,7 +10,7 @@ import ModalFooter from 'Components/Modal/ModalFooter';
 import ModalHeader from 'Components/Modal/ModalHeader';
 import { inputTypes } from 'Helpers/Props';
 import translate from 'Utilities/String/translate';
-import styles from './EditArtistModalContent.css';
+import styles from './EditArtistModalContent.module.css';
 
 interface SavePayload {
   monitored?: boolean;

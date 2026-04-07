@@ -15,7 +15,7 @@ import SortDirection from 'Helpers/Props/SortDirection';
 import dimensions from 'Styles/Variables/dimensions';
 import getIndexOfFirstCharacter from 'Utilities/Array/getIndexOfFirstCharacter';
 import selectTableOptions from './selectTableOptions';
-import styles from './ArtistIndexTable.css';
+import styles from './ArtistIndexTable.module.css';
 
 const bodyPadding = parseInt(dimensions.pageContentBodyPadding);
 const bodyPaddingSmallScreen = parseInt(

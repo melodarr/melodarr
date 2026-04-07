@@ -1,4 +1,11 @@
+const path = require('path');
+
 const reload = require('require-nocache')(module);
+const autoprefixer = require('autoprefixer');
+const postcssMixins = require('postcss-mixins');
+const postcssSimpleVars = require('postcss-simple-vars');
+const postcssColorFunction = require('postcss-color-function');
+const postcssNested = require('postcss-nested');
 
 const cssVarsFiles = [
   './src/Styles/Variables/dimensions',
@@ -7,26 +14,27 @@ const cssVarsFiles = [
   './src/Styles/Variables/zIndexes'
 ].map(require.resolve);
 
+const mixinsDir = path.join(__dirname, 'src', 'Styles', 'Mixins');
 const mixinsFiles = [
-  'frontend/src/Styles/Mixins/cover.css',
-  'frontend/src/Styles/Mixins/linkOverlay.css',
-  'frontend/src/Styles/Mixins/scroller.css',
-  'frontend/src/Styles/Mixins/truncate.css'
+  path.join(mixinsDir, 'cover.css'),
+  path.join(mixinsDir, 'linkOverlay.css'),
+  path.join(mixinsDir, 'scroller.css'),
+  path.join(mixinsDir, 'truncate.css')
 ];
 
 module.exports = {
   plugins: [
-    'autoprefixer',
-    ['postcss-mixins', {
+    autoprefixer(),
+    postcssMixins({
       mixinsFiles
-    }],
-    ['postcss-simple-vars', {
+    }),
+    postcssSimpleVars({
       variables: () =>
         cssVarsFiles.reduce((acc, vars) => {
           return Object.assign(acc, reload(vars));
         }, {})
-    }],
-    'postcss-color-function',
-    'postcss-nested'
+    }),
+    postcssColorFunction(),
+    postcssNested()
   ]
 };

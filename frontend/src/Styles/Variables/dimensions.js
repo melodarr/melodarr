@@ -3,6 +3,12 @@ module.exports = {
   pageContentBodyPadding: '20px',
   pageContentBodyPaddingSmallScreen: '10px',
 
+  // Radii
+  borderRadiusSmall: '4px',
+  borderRadiusMedium: '8px',
+  borderRadiusLarge: '12px',
+  borderRadiusRound: '999px',
+
   // Header
   headerHeight: '60px',
 

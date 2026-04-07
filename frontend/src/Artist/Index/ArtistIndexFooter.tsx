@@ -10,7 +10,7 @@ import createClientSideCollectionSelector from 'Store/Selectors/createClientSide
 import createDeepEqualSelector from 'Store/Selectors/createDeepEqualSelector';
 import formatBytes from 'Utilities/Number/formatBytes';
 import translate from 'Utilities/String/translate';
-import styles from './ArtistIndexFooter.css';
+import styles from './ArtistIndexFooter.module.css';
 
 function createUnoptimizedSelector() {
   return createSelector(

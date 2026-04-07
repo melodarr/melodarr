@@ -57,7 +57,7 @@ namespace NzbDrone.Core.Test.OrganizerTests.FileNameBuilderTests
                     .Build(),
             };
 
-            _trackFile = new TrackFile { Quality = new QualityModel(Quality.MP3_320), ReleaseGroup = "LidarrTest" };
+            _trackFile = new TrackFile { Quality = new QualityModel(Quality.MP3_320), ReleaseGroup = "MelodarrTest" };
 
             Mocker.GetMock<IQualityDefinitionService>()
                 .Setup(v => v.Get(Moq.It.IsAny<Quality>()))

@@ -115,7 +115,7 @@ namespace NzbDrone.Common.Instrumentation
 
             coloredConsoleTarget.Name = "consoleLogger";
 
-            var logFormat = Enum.TryParse<ConsoleLogFormat>(Environment.GetEnvironmentVariable("LIDARR__LOG__CONSOLEFORMAT"), out var formatEnumValue)
+            var logFormat = Enum.TryParse<ConsoleLogFormat>(Environment.GetEnvironmentVariable("MELODARR__LOG__CONSOLEFORMAT"), out var formatEnumValue)
                 ? formatEnumValue
                 : ConsoleLogFormat.Standard;
 
@@ -129,9 +129,9 @@ namespace NzbDrone.Common.Instrumentation
 
         private static void RegisterAppFile(IAppFolderInfo appFolderInfo)
         {
-            RegisterAppFile(appFolderInfo, "appFileInfo", "lidarr.txt", 5, LogLevel.Info);
-            RegisterAppFile(appFolderInfo, "appFileDebug", "lidarr.debug.txt", 50, LogLevel.Off);
-            RegisterAppFile(appFolderInfo, "appFileTrace", "lidarr.trace.txt", 50, LogLevel.Off);
+            RegisterAppFile(appFolderInfo, "appFileInfo", "melodarr.txt", 5, LogLevel.Info);
+            RegisterAppFile(appFolderInfo, "appFileDebug", "melodarr.debug.txt", 50, LogLevel.Off);
+            RegisterAppFile(appFolderInfo, "appFileTrace", "melodarr.trace.txt", 50, LogLevel.Off);
         }
 
         private static void RegisterAppFile(IAppFolderInfo appFolderInfo, string name, string fileName, int maxArchiveFiles, LogLevel minLogLevel)

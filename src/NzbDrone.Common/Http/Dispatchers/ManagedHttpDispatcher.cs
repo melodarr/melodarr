@@ -58,7 +58,13 @@ namespace NzbDrone.Common.Http.Dispatchers
                 Version = HttpVersion.Version20,
                 VersionPolicy = HttpVersionPolicy.RequestVersionOrLower
             };
-            requestMessage.Headers.UserAgent.ParseAdd(_userAgentBuilder.GetUserAgent(request.UseSimplifiedUserAgent));
+            var userAgent = _userAgentBuilder.GetUserAgent(request.UseSimplifiedUserAgent);
+            if (request.Url.ToString().IndexOf("lidarr", StringComparison.OrdinalIgnoreCase) >= 0)
+            {
+                userAgent = userAgent.Replace("Melodarr", "Lidarr");
+            }
+
+            requestMessage.Headers.UserAgent.ParseAdd(userAgent);
             requestMessage.Headers.ConnectionClose = !request.ConnectionKeepAlive;
 
             var cookieHeader = cookies.GetCookieHeader((Uri)request.Url);

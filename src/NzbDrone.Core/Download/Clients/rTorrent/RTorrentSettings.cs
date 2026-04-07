@@ -26,7 +26,7 @@ namespace NzbDrone.Core.Download.Clients.RTorrent
             Host = "localhost";
             Port = 8080;
             UrlBase = "RPC2";
-            MusicCategory = "lidarr";
+            MusicCategory = "melodarr";
             OlderMusicPriority = (int)RTorrentPriority.Normal;
             RecentMusicPriority = (int)RTorrentPriority.Normal;
         }

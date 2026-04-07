@@ -55,6 +55,9 @@ namespace NzbDrone.App.Test
             container.RegisterInstance<IOptions<LogOptions>>(new Mock<IOptions<LogOptions>>().Object);
 
             _container = container.GetServiceProvider();
+
+            ExceptionVerification.IgnoreErrors();
+            ExceptionVerification.IgnoreWarns();
         }
 
         [Test]

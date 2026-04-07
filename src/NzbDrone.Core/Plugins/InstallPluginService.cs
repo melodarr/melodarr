@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Linq;
 using NLog;
@@ -68,30 +69,44 @@ namespace NzbDrone.Core.Plugins
                 _diskProvider.DeleteFolder(tempFolder, true);
             }
 
+            _diskProvider.EnsureFolder(tempFolder);
+
             var packageDestination = Path.Combine(tempFolder, $"{package.Name}.zip");
             var packageTitle = $"{package.Owner}/{package.Name} v{package.Version}";
             _logger.ProgressInfo($"Downloading plugin [{packageTitle}]");
-            _httpClient.DownloadFile(package.PackageUrl, packageDestination);
+
+            if (package.PackageUrl.StartsWith("file://", StringComparison.OrdinalIgnoreCase))
+            {
+                var packageUrlFormatted = package.PackageUrl.Substring(7);
+                _diskProvider.CopyFile(packageUrlFormatted, packageDestination, true);
+            }
+            else
+            {
+                _httpClient.DownloadFile(package.PackageUrl, packageDestination);
+            }
 
             _logger.ProgressInfo($"Extracting plugin [{packageTitle}]");
             _archiveService.Extract(packageDestination, Path.Combine(PluginFolder(), package.Owner, package.Name));
-            _logger.ProgressInfo($"Plugin [{package.Owner}/{package.Name}] v{package.Version} installed. Please restart Lidarr.");
+            _logger.ProgressInfo($"Plugin [{package.Owner}/{package.Name}] v{package.Version} installed. Please restart Melodarr.");
         }
 
         private void UninstallPlugin(string owner, string name, PluginVersion version)
         {
             _logger.ProgressInfo($"Uninstalling plugin [{owner}/{name}]");
             var pluginFolder = Path.Combine(PluginFolder(), owner, name);
-            _logger.Debug("Deleting folder: {0}", pluginFolder);
-            _diskProvider.DeleteFolder(pluginFolder, true);
+            if (_diskProvider.FolderExists(pluginFolder))
+            {
+                _logger.Debug("Deleting folder: {0}", pluginFolder);
+                _diskProvider.DeleteFolder(pluginFolder, true);
+            }
 
             if (version != null)
             {
-                _logger.ProgressInfo($"Plugin [{owner}/{name}] v{version} uninstalled. Please restart Lidarr.");
+                _logger.ProgressInfo($"Plugin [{owner}/{name}] v{version} uninstalled. Please restart Melodarr.");
             }
             else
             {
-                _logger.ProgressInfo($"Plugin [{owner}/{name}] uninstalled. Please restart Lidarr.");
+                _logger.ProgressInfo($"Plugin [{owner}/{name}] uninstalled. Please restart Melodarr.");
             }
         }
 

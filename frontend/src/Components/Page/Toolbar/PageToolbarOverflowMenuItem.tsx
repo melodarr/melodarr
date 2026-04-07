@@ -2,7 +2,7 @@ import { IconDefinition } from '@fortawesome/fontawesome-common-types';
 import React from 'react';
 import MenuItem from 'Components/Menu/MenuItem';
 import SpinnerIcon from 'Components/SpinnerIcon';
-import styles from './PageToolbarOverflowMenuItem.css';
+import styles from './PageToolbarOverflowMenuItem.module.css';
 
 interface PageToolbarOverflowMenuItemProps {
   iconName: IconDefinition;

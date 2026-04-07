@@ -12,7 +12,7 @@ import getRelativeDate from 'Utilities/Date/getRelativeDate';
 import formatBytes from 'Utilities/Number/formatBytes';
 import translate from 'Utilities/String/translate';
 import ArtistIndexOverviewInfoRow from './ArtistIndexOverviewInfoRow';
-import styles from './ArtistIndexOverviewInfo.css';
+import styles from './ArtistIndexOverviewInfo.module.css';
 
 interface RowProps {
   name: string;

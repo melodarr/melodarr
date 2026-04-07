@@ -229,7 +229,7 @@ namespace NzbDrone.Host
                               IConfigFileProvider configFileProvider,
                               IRuntimeInfo runtimeInfo,
                               IFirewallAdapter firewallAdapter,
-                              LidarrErrorPipeline errorHandler,
+                              MelodarrErrorPipeline errorHandler,
                               IEventAggregator eventAggregator)
         {
             initializeLogger.Initialize();

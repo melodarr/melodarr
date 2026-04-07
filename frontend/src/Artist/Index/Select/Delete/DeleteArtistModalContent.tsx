@@ -17,7 +17,7 @@ import { bulkDeleteArtist, setDeleteOption } from 'Store/Actions/artistActions';
 import createAllArtistSelector from 'Store/Selectors/createAllArtistSelector';
 import { CheckInputChanged } from 'typings/inputs';
 import translate from 'Utilities/String/translate';
-import styles from './DeleteArtistModalContent.css';
+import styles from './DeleteArtistModalContent.module.css';
 
 interface DeleteArtistModalContentProps {
   artistIds: number[];

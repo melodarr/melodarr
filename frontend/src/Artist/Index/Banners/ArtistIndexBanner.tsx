@@ -19,7 +19,7 @@ import createUISettingsSelector from 'Store/Selectors/createUISettingsSelector';
 import getRelativeDate from 'Utilities/Date/getRelativeDate';
 import translate from 'Utilities/String/translate';
 import selectBannerOptions from './selectBannerOptions';
-import styles from './ArtistIndexBanner.css';
+import styles from './ArtistIndexBanner.module.css';
 
 interface ArtistIndexBannerProps {
   artistId: number;

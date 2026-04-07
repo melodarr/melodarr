@@ -125,5 +125,45 @@ namespace Melodarr.Api.V1.System
             Task.Factory.StartNew(() => _lifecycleService.Restart());
             return new { Restarting = true };
         }
+
+        [HttpPost("restartdb")]
+        public object RestartDb()
+        {
+            var appDataPath = _appFolderInfo.GetAppDataPath();
+
+            Task.Factory.StartNew(() =>
+            {
+                // Delete everything to start fresh
+                var filesToDelete = new[]
+                {
+                    Path.Combine(appDataPath, "melodarr.db"),
+                    Path.Combine(appDataPath, "melodarr.db-wal"),
+                    Path.Combine(appDataPath, "melodarr.db-shm"),
+                    Path.Combine(appDataPath, "logs.db"),
+                    Path.Combine(appDataPath, "logs.db-wal"),
+                    Path.Combine(appDataPath, "logs.db-shm"),
+                    Path.Combine(appDataPath, "config.xml")
+                };
+
+                foreach (var file in filesToDelete)
+                {
+                    if (global::System.IO.File.Exists(file))
+                    {
+                        try
+                        {
+                            global::System.IO.File.Delete(file);
+                        }
+                        catch
+                        {
+                            /* Ignore locked files on some OS */
+                        }
+                    }
+                }
+
+                _lifecycleService.Restart();
+            });
+
+            return new { RestartingDb = true };
+        }
     }
 }

@@ -35,7 +35,7 @@ namespace NzbDrone.Core.Download.Clients.Transmission
             Host = "localhost";
             Port = 9091;
             UrlBase = "/transmission/";
-            MusicCategory = "lidarr";
+            MusicCategory = "melodarr";
         }
 
         // TODO: Remove this in v3

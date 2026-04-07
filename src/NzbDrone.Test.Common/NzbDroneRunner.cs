@@ -45,24 +45,24 @@ namespace NzbDrone.Test.Common
 
             GenerateConfigFile(enableAuth);
 
-            string lidarrConsoleExe;
+            string melodarrConsoleExe;
             if (OsInfo.IsWindows)
             {
-                lidarrConsoleExe = "Lidarr.Console.exe";
+                melodarrConsoleExe = "Melodarr.Console.exe";
             }
             else
             {
-                lidarrConsoleExe = "Lidarr";
+                melodarrConsoleExe = "Melodarr";
             }
 
             _startupLog = new List<string>();
             if (BuildInfo.IsDebug)
             {
-                Start(Path.Combine(TestContext.CurrentContext.TestDirectory, "..", "..", "_output", "net8.0", lidarrConsoleExe));
+                Start(Path.Combine(TestContext.CurrentContext.TestDirectory, "..", "..", "_output", "net10.0", melodarrConsoleExe));
             }
             else
             {
-                Start(Path.Combine(TestContext.CurrentContext.TestDirectory, "..", "bin", lidarrConsoleExe));
+                Start(Path.Combine(TestContext.CurrentContext.TestDirectory, "..", "bin", melodarrConsoleExe));
             }
 
             while (true)
@@ -71,7 +71,7 @@ namespace NzbDrone.Test.Common
 
                 if (_nzbDroneProcess.HasExited)
                 {
-                    TestContext.Progress.WriteLine("Lidarr has exited unexpectedly");
+                    TestContext.Progress.WriteLine("Melodarr has exited unexpectedly");
                     Thread.Sleep(2000);
                     var output = _startupLog.Join(Environment.NewLine);
                     Assert.Fail("Process has exited: ExitCode={0} Output={1}", _nzbDroneProcess.ExitCode, output);
@@ -86,11 +86,11 @@ namespace NzbDrone.Test.Common
                 if (statusCall.ResponseStatus == ResponseStatus.Completed)
                 {
                     _startupLog = null;
-                    TestContext.Progress.WriteLine($"Lidarr {Port} is started. Running Tests");
+                    TestContext.Progress.WriteLine($"Melodarr {Port} is started. Running Tests");
                     return;
                 }
 
-                TestContext.Progress.WriteLine("Waiting for Lidarr to start. Response Status : {0}  [{1}] {2}", statusCall.ResponseStatus, statusCall.StatusDescription, statusCall.ErrorException.Message);
+                TestContext.Progress.WriteLine("Waiting for Melodarr to start. Response Status : {0}  [{1}] {2}", statusCall.ResponseStatus, statusCall.StatusDescription, statusCall.ErrorException.Message);
 
                 Thread.Sleep(500);
             }
@@ -105,7 +105,7 @@ namespace NzbDrone.Test.Common
                     _nzbDroneProcess.Refresh();
                     if (_nzbDroneProcess.HasExited)
                     {
-                        var log = File.ReadAllLines(Path.Combine(AppData, "logs", "lidarr.trace.txt"));
+                        var log = File.ReadAllLines(Path.Combine(AppData, "logs", "melodarr.trace.txt"));
                         var output = log.Join(Environment.NewLine);
                         TestContext.Progress.WriteLine("Process has exited prematurely: ExitCode={0} Output:\n{1}", _nzbDroneProcess.ExitCode, output);
                     }
@@ -130,8 +130,8 @@ namespace NzbDrone.Test.Common
                     _processProvider.Kill(_nzbDroneProcess.Id);
                 }
 
-                _processProvider.KillAll(ProcessProvider.LIDARR_CONSOLE_PROCESS_NAME);
-                _processProvider.KillAll(ProcessProvider.LIDARR_PROCESS_NAME);
+                _processProvider.KillAll(ProcessProvider.MELODARR_CONSOLE_PROCESS_NAME);
+                _processProvider.KillAll(ProcessProvider.MELODARR_PROCESS_NAME);
             }
             catch (InvalidOperationException)
             {
@@ -141,25 +141,25 @@ namespace NzbDrone.Test.Common
             TestBase.DeleteTempFolder(AppData);
         }
 
-        private void Start(string outputLidarrConsoleExe)
+        private void Start(string outputMelodarrConsoleExe)
         {
             StringDictionary envVars = new ();
             if (PostgresOptions?.Host != null)
             {
-                envVars.Add("Lidarr__Postgres__Host", PostgresOptions.Host);
-                envVars.Add("Lidarr__Postgres__Port", PostgresOptions.Port.ToString());
-                envVars.Add("Lidarr__Postgres__User", PostgresOptions.User);
-                envVars.Add("Lidarr__Postgres__Password", PostgresOptions.Password);
-                envVars.Add("Lidarr__Postgres__MainDb", PostgresOptions.MainDb);
-                envVars.Add("Lidarr__Postgres__LogDb", PostgresOptions.LogDb);
+                envVars.Add("Melodarr__Postgres__Host", PostgresOptions.Host);
+                envVars.Add("Melodarr__Postgres__Port", PostgresOptions.Port.ToString());
+                envVars.Add("Melodarr__Postgres__User", PostgresOptions.User);
+                envVars.Add("Melodarr__Postgres__Password", PostgresOptions.Password);
+                envVars.Add("Melodarr__Postgres__MainDb", PostgresOptions.MainDb);
+                envVars.Add("Melodarr__Postgres__LogDb", PostgresOptions.LogDb);
 
                 TestContext.Progress.WriteLine("Using env vars:\n{0}", envVars.ToJson());
             }
 
-            TestContext.Progress.WriteLine("Starting instance from {0} on port {1}", outputLidarrConsoleExe, Port);
+            TestContext.Progress.WriteLine("Starting instance from {0} on port {1}", outputMelodarrConsoleExe, Port);
 
             var args = "-nobrowser -nosingleinstancecheck -data=\"" + AppData + "\"";
-            _nzbDroneProcess = _processProvider.Start(outputLidarrConsoleExe, args, envVars, OnOutputDataReceived, OnOutputDataReceived);
+            _nzbDroneProcess = _processProvider.Start(outputMelodarrConsoleExe, args, envVars, OnOutputDataReceived, OnOutputDataReceived);
         }
 
         private void OnOutputDataReceived(string data)

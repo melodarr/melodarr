@@ -14,7 +14,7 @@ namespace NzbDrone.Common.Test.InstrumentationTests
         [TestCase(@"http://rss.torrentleech.org/rss/download/12345/01233210/file.name-RLSGRP.torrent")]
         [TestCase(@"https://www.torrentleech.org/rss/download/12345/01233210/file.name-RLSGRP.torrent")]
         [TestCase(@"http://www.bitmetv.org/rss.php?uid=mySecret&passkey=mySecret")]
-        [TestCase(@"https://rss.omgwtfnzbs.org/rss-search.php?catid=19,20&user=Lidarr&api=mySecret&eng=1")]
+        [TestCase(@"https://rss.omgwtfnzbs.org/rss-search.php?catid=19,20&user=Melodarr&api=mySecret&eng=1")]
         [TestCase(@"https://dognzb.cr/fetch/2b51db35e1912ffc138825a12b9933d2/2b51db35e1910123321025a12b9933d2")]
         [TestCase(@"https://baconbits.org/feeds.php?feed=torrents_tv&user=12345&auth=2b51db35e1910123321025a12b9933d2&passkey=mySecret&authkey=2b51db35e1910123321025a12b9933d2")]
         [TestCase(@"http://127.0.0.1:9117/dl/indexername?jackett_apikey=flwjiefewklfjacketmySecretsdfldskjfsdlk&path=we0re9f0sdfbase64sfdkfjsdlfjk&file=The+Torrent+File+Name.torrent")]
@@ -66,7 +66,7 @@ namespace NzbDrone.Common.Test.InstrumentationTests
         [TestCase(@"""DownloadURL"":""https:\/\/broadcasthe.net\/torrents.php?action=download&id=123&authkey=mySecret&torrent_pass=mySecret""")]
 
         // Spotify Refresh
-        [TestCase(@"https://spotify.lidarr.audio/renew?refresh_token=mySecret")]
+        [TestCase(@"https://spotify.melodarr.audio/renew?refresh_token=mySecret")]
 
         // Plex
         [TestCase(@" http://localhost:32400/library/metadata/12345/refresh?X-Plex-Client-Identifier=1234530f-422f-4aac-b6b3-01233210aaaa&X-Plex-Product=Sonarr&X-Plex-Platform=Windows&X-Plex-Platform-Version=7&X-Plex-Device-Name=Sonarr&X-Plex-Version=3.0.3.833&X-Plex-Token=mySecret")]
@@ -79,9 +79,9 @@ namespace NzbDrone.Common.Test.InstrumentationTests
         [TestCase("Hardlink '/home/mySecret/Downloads/abs.mkv' to '/media/abc.mkv' failed.")]
         [TestCase("Hardlink '/Users/mySecret/Downloads/abs.mkv' to '/media/abc.mkv' failed.")]
         [TestCase("https://notifiarr.com/notifier.php: api=1234530f-422f-4aac-b6b3-01233210aaaa&radarr_health_issue_message=Download")]
-        [TestCase("/lidarr/signalr/messages/negotiate?access_token=1234530f422f4aacb6b301233210aaaa&negotiateVersion=1")]
-        [TestCase(@"[Info] MigrationController: *** Migrating Database=lidarr-main;Host=postgres14;Username=mySecret;Password=mySecret;Port=5432;Enlist=False ***")]
-        [TestCase(@"[Info] MigrationController: *** Migrating Database=lidarr-main;Host=postgres14;Username=mySecret;Password=mySecret;Port=5432;token=mySecret;Enlist=False&username=mySecret;mypassword=mySecret;mypass=shouldkeep1;test_token=mySecret;password=123%@%_@!#^#@;use_password=mySecret;get_token=shouldkeep2;usetoken=shouldkeep3;passwrd=mySecret;")]
+        [TestCase("/melodarr/signalr/messages/negotiate?access_token=1234530f422f4aacb6b301233210aaaa&negotiateVersion=1")]
+        [TestCase(@"[Info] MigrationController: *** Migrating Database=melodarr-main;Host=postgres14;Username=mySecret;Password=mySecret;Port=5432;Enlist=False ***")]
+        [TestCase(@"[Info] MigrationController: *** Migrating Database=melodarr-main;Host=postgres14;Username=mySecret;Password=mySecret;Port=5432;token=mySecret;Enlist=False&username=mySecret;mypassword=mySecret;mypass=shouldkeep1;test_token=mySecret;password=123%@%_@!#^#@;use_password=mySecret;get_token=shouldkeep2;usetoken=shouldkeep3;passwrd=mySecret;")]
 
         // Announce URLs (passkeys) Magnet & Tracker
         [TestCase(@"magnet_uri"":""magnet:?xt=urn:btih:9pr04sgkillroyimaveql2tyu8xyui&dn=&tr=https%3a%2f%2fxxx.yyy%2f9pr04sg601233210IMAveQL2tyu8xyui%2fannounce""}")]
@@ -95,7 +95,7 @@ namespace NzbDrone.Common.Test.InstrumentationTests
         [TestCase(@"tracker"":""http://xxx.yyy/announce.php?passkey=9pr04sg601233210IMAveQL2tyu8xyui"",""info"":""http://xxx.yyy/info?a=b""")]
 
         // Webhooks - Notifiarr
-        [TestCase(@"https://xxx.yyy/api/v1/notification/lidarr/mySecret")]
+        [TestCase(@"https://xxx.yyy/api/v1/notification/melodarr/mySecret")]
 
         // Discord
         [TestCase(@"https://discord.com/api/webhooks/mySecret")]
@@ -114,7 +114,7 @@ namespace NzbDrone.Common.Test.InstrumentationTests
             cleansedMessage.Should().NotContain("01233210");
         }
 
-        [TestCase(@"[Info] MigrationController: *** Migrating Database=lidarr-main;Host=postgres14;Username=mySecret;Password=mySecret;Port=5432;token=mySecret;Enlist=False&username=mySecret;mypassword=mySecret;mypass=shouldkeep1;test_token=mySecret;password=123%@%_@!#^#@;use_password=mySecret;get_token=shouldkeep2;usetoken=shouldkeep3;passwrd=mySecret;")]
+        [TestCase(@"[Info] MigrationController: *** Migrating Database=melodarr-main;Host=postgres14;Username=mySecret;Password=mySecret;Port=5432;token=mySecret;Enlist=False&username=mySecret;mypassword=mySecret;mypass=shouldkeep1;test_token=mySecret;password=123%@%_@!#^#@;use_password=mySecret;get_token=shouldkeep2;usetoken=shouldkeep3;passwrd=mySecret;")]
         public void should_keep_message(string message)
         {
             var cleansedMessage = CleanseLogMessage.Cleanse(message);

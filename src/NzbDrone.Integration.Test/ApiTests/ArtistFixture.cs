@@ -7,6 +7,7 @@ using NUnit.Framework;
 namespace NzbDrone.Integration.Test.ApiTests
 {
     [TestFixture]
+    [Category("Routing"), Category("Integration")]
     public class ArtistFixture : IntegrationTest
     {
         [Test]
@@ -16,7 +17,7 @@ namespace NzbDrone.Integration.Test.ApiTests
             EnsureNoArtist("f59c5520-5f46-4d2c-b2c4-822eabf53419", "Linkin Park");
             var tag = EnsureTag("abc");
 
-            var artist = Artist.Lookup("lidarr:f59c5520-5f46-4d2c-b2c4-822eabf53419").Single();
+            var artist = Artist.Lookup("melodarr:f59c5520-5f46-4d2c-b2c4-822eabf53419").Single();
 
             artist.QualityProfileId = 1;
             artist.MetadataProfileId = 1;
@@ -36,7 +37,7 @@ namespace NzbDrone.Integration.Test.ApiTests
         {
             EnsureNoArtist("f59c5520-5f46-4d2c-b2c4-822eabf53419", "Linkin Park");
 
-            var artist = Artist.Lookup("lidarr:f59c5520-5f46-4d2c-b2c4-822eabf53419").Single();
+            var artist = Artist.Lookup("melodarr:f59c5520-5f46-4d2c-b2c4-822eabf53419").Single();
 
             artist.Path = Path.Combine(ArtistRootFolder, artist.ArtistName);
 
@@ -49,7 +50,7 @@ namespace NzbDrone.Integration.Test.ApiTests
         {
             EnsureNoArtist("f59c5520-5f46-4d2c-b2c4-822eabf53419", "Linkin Park");
 
-            var artist = Artist.Lookup("lidarr:f59c5520-5f46-4d2c-b2c4-822eabf53419").Single();
+            var artist = Artist.Lookup("melodarr:f59c5520-5f46-4d2c-b2c4-822eabf53419").Single();
 
             artist.QualityProfileId = 1;
 
@@ -62,7 +63,7 @@ namespace NzbDrone.Integration.Test.ApiTests
         {
             EnsureNoArtist("f59c5520-5f46-4d2c-b2c4-822eabf53419", "Linkin Park");
 
-            var artist = Artist.Lookup("lidarr:f59c5520-5f46-4d2c-b2c4-822eabf53419").Single();
+            var artist = Artist.Lookup("melodarr:f59c5520-5f46-4d2c-b2c4-822eabf53419").Single();
 
             artist.QualityProfileId = 1;
             artist.MetadataProfileId = 1;

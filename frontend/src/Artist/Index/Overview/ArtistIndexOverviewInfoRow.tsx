@@ -1,7 +1,7 @@
 import { IconDefinition } from '@fortawesome/free-regular-svg-icons';
 import React from 'react';
 import Icon from 'Components/Icon';
-import styles from './ArtistIndexOverviewInfoRow.css';
+import styles from './ArtistIndexOverviewInfoRow.module.css';
 
 interface ArtistIndexOverviewInfoRowProps {
   title?: string;

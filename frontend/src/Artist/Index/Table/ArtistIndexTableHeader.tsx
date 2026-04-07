@@ -17,7 +17,7 @@ import {
 } from 'Store/Actions/artistIndexActions';
 import { CheckInputChanged } from 'typings/inputs';
 import hasGrowableColumns from './hasGrowableColumns';
-import styles from './ArtistIndexTableHeader.css';
+import styles from './ArtistIndexTableHeader.module.css';
 
 interface ArtistIndexTableHeaderProps {
   showBanners: boolean;

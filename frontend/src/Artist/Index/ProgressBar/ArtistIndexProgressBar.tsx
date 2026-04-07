@@ -7,7 +7,7 @@ import ProgressBar from 'Components/ProgressBar';
 import { sizes } from 'Helpers/Props';
 import getProgressBarKind from 'Utilities/Artist/getProgressBarKind';
 import translate from 'Utilities/String/translate';
-import styles from './ArtistIndexProgressBar.css';
+import styles from './ArtistIndexProgressBar.module.css';
 
 interface ArtistIndexProgressBarProps {
   artistId: number;

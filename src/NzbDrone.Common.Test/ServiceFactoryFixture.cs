@@ -34,6 +34,9 @@ namespace NzbDrone.Common.Test
                 .AddDummyLogDatabase()
                 .AddStartupContext(new StartupContext("first", "second"));
 
+            WithTempAsAppPath();
+            container.RegisterInstance<IAppFolderInfo>(TestFolderInfo);
+
             container.RegisterInstance(new Mock<IHostLifetime>().Object);
             container.RegisterInstance(new Mock<IOptions<PostgresOptions>>().Object);
             container.RegisterInstance(new Mock<IOptions<AppOptions>>().Object);

@@ -9,7 +9,7 @@ import React, {
   useRef,
 } from 'react';
 import ScrollDirection from 'Helpers/Props/ScrollDirection';
-import styles from './Scroller.css';
+import styles from './Scroller.module.css';
 
 export interface OnScroll {
   scrollLeft: number;

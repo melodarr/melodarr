@@ -179,6 +179,12 @@ namespace NzbDrone.Test.Common
             Mocker.GetMock<IAppFolderInfo>()
                 .SetupGet(c => c.AppDataFolder)
                 .Returns(VirtualPath);
+            Mocker.GetMock<IAppFolderInfo>()
+                .SetupGet(c => c.StartUpFolder)
+                .Returns(VirtualPath);
+            Mocker.GetMock<IAppFolderInfo>()
+                .SetupGet(c => c.TempFolder)
+                .Returns(VirtualPath);
 
             TestFolderInfo = Mocker.GetMock<IAppFolderInfo>().Object;
         }

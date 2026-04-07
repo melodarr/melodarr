@@ -17,13 +17,13 @@ namespace NzbDrone.Core.HealthCheck
     {
         private readonly IHttpClient _client;
         private readonly IConfigFileProvider _configFileProvider;
-        private readonly ILidarrCloudRequestBuilder _cloudRequestBuilder;
+        private readonly IMelodarrCloudRequestBuilder _cloudRequestBuilder;
         private readonly Logger _logger;
 
         private readonly ICached<HealthCheck> _cache;
 
         public ServerSideNotificationService(IHttpClient client,
-                                             ILidarrCloudRequestBuilder cloudRequestBuilder,
+                                             IMelodarrCloudRequestBuilder cloudRequestBuilder,
                                              IConfigFileProvider configFileProvider,
                                              ILocalizationService localizationService,
                                              ICacheManager cacheManager,

@@ -41,20 +41,35 @@ namespace NzbDrone.Core.Plugins
         {
             try
             {
-                var (owner, name, tree) = ParseRepositoryInput(input);
+                if (input != null && input.StartsWith("file://", StringComparison.OrdinalIgnoreCase))
+                {
+                    var filePath = input.Substring(7);
+                    var name = System.IO.Path.GetFileNameWithoutExtension(filePath);
+                    return new RemotePlugin
+                    {
+                        GithubUrl = input,
+                        Name = name,
+                        Owner = "Local",
+                        Version = new PluginVersion(new Version(1, 0, 0, 0)),
+                        PackageUrl = input,
+                        Tree = "main"
+                    };
+                }
+
+                var (owner, nameParsed, tree) = ParseRepositoryInput(input);
                 if (string.IsNullOrWhiteSpace(owner))
                 {
                     return null;
                 }
 
-                _logger.Trace($"Fetching releases for {owner}/{name}" + (tree != null ? $" on tree '{tree}'" : ""));
+                _logger.Trace($"Fetching releases for {owner}/{nameParsed}" + (tree != null ? $" on tree '{tree}'" : ""));
 
-                var releasesUrl = $"https://api.github.com/repos/{owner}/{name}/releases";
+                var releasesUrl = $"https://api.github.com/repos/{owner}/{nameParsed}/releases";
                 var releases = _httpClient.Get<List<Release>>(new HttpRequest(releasesUrl)).Resource;
 
                 if (releases?.Any() != true)
                 {
-                    _logger.Warn($"No releases found for {owner}/{name}");
+                    _logger.Warn($"No releases found for {owner}/{nameParsed}");
                     return null;
                 }
 
@@ -72,7 +87,7 @@ namespace NzbDrone.Core.Plugins
                 var release = compatibleReleases.FirstOrDefault();
                 if (release == null)
                 {
-                    _logger.Warn($"No compatible release found for {name} with framework {Framework}" +
+                    _logger.Warn($"No compatible release found for {nameParsed} with framework {Framework}" +
                         (tree != null ? $" and tree {tree}" : ""));
                     return null;
                 }
@@ -82,7 +97,7 @@ namespace NzbDrone.Core.Plugins
                 if (urlMatch.Success)
                 {
                     owner = urlMatch.Groups["owner"].Value;
-                    name = urlMatch.Groups["n"].Value;
+                    nameParsed = urlMatch.Groups["n"].Value;
                 }
 
                 var targetTree = release.TargetCommitish;
@@ -100,17 +115,17 @@ namespace NzbDrone.Core.Plugins
 
                 if (asset == null)
                 {
-                    _logger.Warn($"No asset found matching {Framework}.zip for {name}");
+                    _logger.Warn($"No asset found matching {Framework}.zip for {nameParsed}");
                     return null;
                 }
 
-                var githubUrl = $"https://github.com/{owner}/{name}" + (actualTree != null ? $"/tree/{actualTree}" : "");
+                var githubUrl = $"https://github.com/{owner}/{nameParsed}" + (actualTree != null ? $"/tree/{actualTree}" : "");
 
-                _logger.Info($"Found plugin {owner}/{name} v{version} from tree '{actualTree ?? "default"}' with asset {asset.Name}");
+                _logger.Info($"Found plugin {owner}/{nameParsed} v{version} from tree '{actualTree ?? "default"}' with asset {asset.Name}");
                 return new RemotePlugin
                 {
                     GithubUrl = githubUrl,
-                    Name = name,
+                    Name = nameParsed,
                     Owner = owner,
                     Version = version,
                     PackageUrl = asset.BrowserDownloadUrl,
@@ -156,6 +171,13 @@ namespace NzbDrone.Core.Plugins
             string owner = null;
             string name = null;
             string tree = null;
+
+            if (input.StartsWith("file://", StringComparison.OrdinalIgnoreCase))
+            {
+                var filePath = input.Substring(7);
+                var nameStr = System.IO.Path.GetFileNameWithoutExtension(filePath);
+                return ("Local", nameStr, null);
+            }
 
             var urlMatch = GitHubUrlRegex().Match(input);
             if (urlMatch.Success)

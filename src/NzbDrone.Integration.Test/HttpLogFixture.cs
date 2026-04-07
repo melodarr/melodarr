@@ -17,7 +17,7 @@ namespace NzbDrone.Integration.Test
 
             var resultGet = Artist.All();
 
-            var logFile = "lidarr.trace.txt";
+            var logFile = "melodarr.trace.txt";
             var logLines = Logs.GetLogFileLines(logFile);
 
             var result = Artist.InvalidPost(new Melodarr.Api.V1.Artist.ArtistResource());

@@ -5,7 +5,7 @@ import { Statistics } from 'Album/Album';
 import MonitorToggleButton from 'Components/MonitorToggleButton';
 import { toggleAlbumsMonitored } from 'Store/Actions/albumActions';
 import translate from 'Utilities/String/translate';
-import styles from './AlbumStudioAlbum.css';
+import styles from './AlbumStudioAlbum.module.css';
 
 interface AlbumStudioAlbumProps {
   artistId: number;

@@ -331,7 +331,7 @@ namespace NzbDrone.Common.Extensions
 
             return Directory.GetDirectories(pluginFolder)
                 .SelectMany(owner => Directory.GetDirectories(owner)
-                    .SelectMany(folder => Directory.GetFiles(folder, "Lidarr.Plugin.*.dll").ToList()))
+                    .SelectMany(folder => Directory.GetFiles(folder, "Melodarr.Plugin.*.dll").ToList()))
                 .ToList();
         }
 

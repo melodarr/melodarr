@@ -23,7 +23,7 @@ namespace NzbDrone.Core.Test.ImportListTests
         [SetUp]
         public void Setup()
         {
-            Mocker.SetConstant<ILidarrCloudRequestBuilder>(new LidarrCloudRequestBuilder());
+            Mocker.SetConstant<IMelodarrCloudRequestBuilder>(new MelodarrCloudRequestBuilder());
             Mocker.SetConstant<IMetadataRequestBuilder>(Mocker.Resolve<MetadataRequestBuilder>());
         }
 

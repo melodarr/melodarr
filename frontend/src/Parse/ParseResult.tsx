@@ -8,7 +8,7 @@ import ArtistNameLink from 'Artist/ArtistNameLink';
 import FieldSet from 'Components/FieldSet';
 import translate from 'Utilities/String/translate';
 import ParseResultItem from './ParseResultItem';
-import styles from './ParseResult.css';
+import styles from './ParseResult.module.css';
 
 interface ParseResultProps {
   item: ParseModel;

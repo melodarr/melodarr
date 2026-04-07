@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using NLog;
 using NzbDrone.Common;
@@ -56,18 +56,18 @@ namespace NzbDrone.Update.UpdateEngine
 
         private void StartService()
         {
-            _logger.Info("Starting Lidarr service");
+            _logger.Info("Starting Melodarr service");
             _serviceProvider.Start(ServiceProvider.SERVICE_NAME);
         }
 
         private void StartWinform(string installationFolder)
         {
-            Start(installationFolder, "Lidarr".ProcessNameToExe());
+            Start(installationFolder, "Melodarr".ProcessNameToExe());
         }
 
         private void StartConsole(string installationFolder)
         {
-            Start(installationFolder, "Lidarr.Console".ProcessNameToExe());
+            Start(installationFolder, "Melodarr.Console".ProcessNameToExe());
         }
 
         private void Start(string installationFolder, string fileName)

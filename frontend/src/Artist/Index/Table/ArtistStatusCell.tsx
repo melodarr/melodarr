@@ -7,7 +7,7 @@ import VirtualTableRowCell from 'Components/Table/Cells/TableRowCell';
 import { icons } from 'Helpers/Props';
 import { toggleArtistMonitored } from 'Store/Actions/artistActions';
 import translate from 'Utilities/String/translate';
-import styles from './ArtistStatusCell.css';
+import styles from './ArtistStatusCell.module.css';
 
 interface ArtistStatusCellProps {
   className: string;

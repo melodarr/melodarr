@@ -30,10 +30,10 @@ namespace NzbDrone.Core.Test.MusicTests
             _fakeArtist.Albums = new List<Album>();
         }
 
-        private void GivenValidArtist(string lidarrId)
+        private void GivenValidArtist(string melodarrId)
         {
             Mocker.GetMock<IProvideArtistInfo>()
-                .Setup(s => s.GetArtistInfo(lidarrId, It.IsAny<int>()))
+                .Setup(s => s.GetArtistInfo(melodarrId, It.IsAny<int>()))
                 .Returns(_fakeArtist);
         }
 

@@ -17,7 +17,7 @@ import { inputTypes, kinds, sizes } from 'Helpers/Props';
 import createAllArtistSelector from 'Store/Selectors/createAllArtistSelector';
 import createTagsSelector from 'Store/Selectors/createTagsSelector';
 import translate from 'Utilities/String/translate';
-import styles from './TagsModalContent.css';
+import styles from './TagsModalContent.module.css';
 
 interface TagsModalContentProps {
   artistIds: number[];

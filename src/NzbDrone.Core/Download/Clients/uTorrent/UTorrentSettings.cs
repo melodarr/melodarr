@@ -25,7 +25,7 @@ namespace NzbDrone.Core.Download.Clients.UTorrent
         {
             Host = "localhost";
             Port = 8080;
-            MusicCategory = "lidarr";
+            MusicCategory = "melodarr";
         }
 
         [FieldDefinition(0, Label = "Host", Type = FieldType.Textbox)]

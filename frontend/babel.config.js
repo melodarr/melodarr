@@ -21,18 +21,12 @@ module.exports = {
       presets: [
         ['@babel/preset-react', { development: true }],
         '@babel/preset-typescript'
-      ],
-      plugins: [
-        'babel-plugin-inline-classnames'
       ]
     },
     production: {
       presets: [
         '@babel/preset-react',
         '@babel/preset-typescript'
-      ],
-      plugins: [
-        'babel-plugin-transform-react-remove-prop-types'
       ]
     }
   }

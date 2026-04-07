@@ -17,6 +17,8 @@ namespace NzbDrone.Automation.Test
 {
     [TestFixture]
     [AutomationTest]
+    [Category("Browser")]
+    [Category("Slow")]
     public abstract class AutomationTest
     {
         private NzbDroneRunner _runner;
@@ -54,7 +56,7 @@ namespace NzbDrone.Automation.Test
             var page = new PageBase(driver);
             page.WaitForNoSpinner();
 
-            driver.ExecuteScript("window.Lidarr.NameViews = true;");
+            driver.ExecuteScript("window.Melodarr.NameViews = true;");
 
             GetPageErrors().Should().BeEmpty();
         }

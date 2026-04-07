@@ -8,7 +8,6 @@ using FluentAssertions;
 using Moq;
 using NUnit.Framework;
 using NzbDrone.Common.Disk;
-using NzbDrone.Common.EnvironmentInfo;
 using NzbDrone.Common.Http;
 using NzbDrone.Core.MediaCover;
 using NzbDrone.Core.Music;
@@ -18,6 +17,7 @@ using NzbDrone.Core.Test.Framework;
 namespace NzbDrone.Core.Test.MediaCoverTests
 {
     [TestFixture]
+    [Category("Platform")]
     public class MediaCoverServiceFixture : CoreTest<MediaCoverService>
     {
         private Artist _artist;
@@ -27,7 +27,7 @@ namespace NzbDrone.Core.Test.MediaCoverTests
         [SetUp]
         public void Setup()
         {
-            Mocker.SetConstant<IAppFolderInfo>(new AppFolderInfo(Mocker.Resolve<IStartupContext>()));
+            WithTempAsAppPath();
 
             _artist = Builder<Artist>.CreateNew()
                 .With(v => v.Id = 2)

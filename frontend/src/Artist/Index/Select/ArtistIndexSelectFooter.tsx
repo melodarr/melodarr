@@ -22,7 +22,7 @@ import DeleteArtistModal from './Delete/DeleteArtistModal';
 import EditArtistModal from './Edit/EditArtistModal';
 import OrganizeArtistModal from './Organize/OrganizeArtistModal';
 import TagsModal from './Tags/TagsModal';
-import styles from './ArtistIndexSelectFooter.css';
+import styles from './ArtistIndexSelectFooter.module.css';
 
 interface SavePayload {
   monitored?: boolean;

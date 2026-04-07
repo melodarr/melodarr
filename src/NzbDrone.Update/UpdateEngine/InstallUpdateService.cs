@@ -98,8 +98,8 @@ namespace NzbDrone.Update.UpdateEngine
 
             var appType = _detectApplicationType.GetAppType();
 
-            _processProvider.FindProcessByName(ProcessProvider.LIDARR_CONSOLE_PROCESS_NAME);
-            _processProvider.FindProcessByName(ProcessProvider.LIDARR_PROCESS_NAME);
+            _processProvider.FindProcessByName(ProcessProvider.MELODARR_CONSOLE_PROCESS_NAME);
+            _processProvider.FindProcessByName(ProcessProvider.MELODARR_PROCESS_NAME);
 
             if (OsInfo.IsWindows)
             {
@@ -113,7 +113,7 @@ namespace NzbDrone.Update.UpdateEngine
 
                 if (OsInfo.IsWindows)
                 {
-                    if (_processProvider.Exists(ProcessProvider.LIDARR_CONSOLE_PROCESS_NAME) || _processProvider.Exists(ProcessProvider.LIDARR_PROCESS_NAME))
+                    if (_processProvider.Exists(ProcessProvider.MELODARR_CONSOLE_PROCESS_NAME) || _processProvider.Exists(ProcessProvider.MELODARR_PROCESS_NAME))
                     {
                         _logger.Error("Lidarr was restarted prematurely by external process.");
                         return;
@@ -154,14 +154,14 @@ namespace NzbDrone.Update.UpdateEngine
                     {
                         System.Threading.Thread.Sleep(1000);
 
-                        if (_processProvider.Exists(ProcessProvider.LIDARR_PROCESS_NAME))
+                        if (_processProvider.Exists(ProcessProvider.MELODARR_PROCESS_NAME))
                         {
                             _logger.Info("Lidarr was restarted by external process.");
                             break;
                         }
                     }
 
-                    if (!_processProvider.Exists(ProcessProvider.LIDARR_PROCESS_NAME))
+                    if (!_processProvider.Exists(ProcessProvider.MELODARR_PROCESS_NAME))
                     {
                         _startNzbDrone.Start(appType, installationFolder);
                     }

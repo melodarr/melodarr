@@ -4,7 +4,7 @@ import VirtualTableRowCell from 'Components/Table/Cells/VirtualTableRowCell';
 import Popover from 'Components/Tooltip/Popover';
 import TooltipPosition from 'Helpers/Props/TooltipPosition';
 import translate from 'Utilities/String/translate';
-import styles from './AlbumsCell.css';
+import styles from './AlbumsCell.module.css';
 
 interface SeriesStatusCellProps {
   className: string;

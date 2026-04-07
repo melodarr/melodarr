@@ -9,7 +9,7 @@ import { clearAlbums, fetchAlbums } from 'Store/Actions/albumActions';
 import createArtistAlbumsSelector from 'Store/Selectors/createArtistAlbumsSelector';
 import translate from 'Utilities/String/translate';
 import AlbumStudioAlbum from './AlbumStudioAlbum';
-import styles from './AlbumDetails.css';
+import styles from './AlbumDetails.module.css';
 
 interface AlbumDetailsProps {
   artistId: number;

@@ -8,9 +8,9 @@ import MenuContent from 'Components/Menu/MenuContent';
 import MenuItem from 'Components/Menu/MenuItem';
 import MenuItemSeparator from 'Components/Menu/MenuItemSeparator';
 import { align, icons, kinds } from 'Helpers/Props';
-import { restart, shutdown } from 'Store/Actions/systemActions';
+import { restart, restartDb, shutdown } from 'Store/Actions/systemActions';
 import translate from 'Utilities/String/translate';
-import styles from './PageHeaderActionsMenu.css';
+import styles from './PageHeaderActionsMenu.module.css';
 
 interface PageHeaderActionsMenuProps {
   onKeyboardShortcutsPress(): void;
@@ -31,6 +31,17 @@ function PageHeaderActionsMenu(props: PageHeaderActionsMenuProps) {
     dispatch(restart());
   }, [dispatch]);
 
+  const handleRestartDbPress = useCallback(() => {
+    if (
+      // eslint-disable-next-line no-alert
+      window.confirm(
+        'Are you sure you want to completely wipe the database and restart? This cannot be undone.'
+      )
+    ) {
+      dispatch(restartDb());
+    }
+  }, [dispatch]);
+
   const handleShutdownPress = useCallback(() => {
     dispatch(shutdown());
   }, [dispatch]);
@@ -46,6 +57,17 @@ function PageHeaderActionsMenu(props: PageHeaderActionsMenuProps) {
           <MenuItem onPress={onKeyboardShortcutsPress}>
             <Icon className={styles.itemIcon} name={icons.KEYBOARD} />
             {translate('KeyboardShortcuts')}
+          </MenuItem>
+
+          <MenuItemSeparator />
+
+          <MenuItem onPress={handleRestartDbPress}>
+            <Icon
+              className={styles.itemIcon}
+              name={icons.RESTART}
+              kind={kinds.DANGER}
+            />
+            Restart DB (Wipe)
           </MenuItem>
 
           {isDocker ? null : (

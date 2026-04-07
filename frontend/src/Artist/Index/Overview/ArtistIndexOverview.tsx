@@ -19,7 +19,7 @@ import translate from 'Utilities/String/translate';
 import createArtistIndexItemSelector from '../createArtistIndexItemSelector';
 import ArtistIndexOverviewInfo from './ArtistIndexOverviewInfo';
 import selectOverviewOptions from './selectOverviewOptions';
-import styles from './ArtistIndexOverview.css';
+import styles from './ArtistIndexOverview.module.css';
 
 const columnPadding = parseInt(dimensions.artistIndexColumnPadding);
 const columnPaddingSmallScreen = parseInt(

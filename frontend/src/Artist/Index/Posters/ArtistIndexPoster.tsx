@@ -19,7 +19,7 @@ import createUISettingsSelector from 'Store/Selectors/createUISettingsSelector';
 import getRelativeDate from 'Utilities/Date/getRelativeDate';
 import translate from 'Utilities/String/translate';
 import selectPosterOptions from './selectPosterOptions';
-import styles from './ArtistIndexPoster.css';
+import styles from './ArtistIndexPoster.module.css';
 
 interface ArtistIndexPosterProps {
   artistId: number;

@@ -17,13 +17,13 @@
     <LidarrOutputType Condition="$(MSBuildProjectName.Contains('.Test'))">Test</LidarrOutputType>
     <LidarrOutputType Condition="'$(MSBuildProjectName)'=='ServiceInstall'">Exe</LidarrOutputType>
     <LidarrOutputType Condition="'$(MSBuildProjectName)'=='ServiceUninstall'">Exe</LidarrOutputType>
-    <LidarrOutputType Condition="'$(MSBuildProjectName)'=='Lidarr'">Exe</LidarrOutputType>
-    <LidarrOutputType Condition="'$(MSBuildProjectName)'=='Lidarr.Console'">Exe</LidarrOutputType>
-    <LidarrOutputType Condition="'$(MSBuildProjectName)'=='Lidarr.Update'">Update</LidarrOutputType>
+    <LidarrOutputType Condition="'$(MSBuildProjectName)'=='Melodarr'">Exe</LidarrOutputType>
+    <LidarrOutputType Condition="'$(MSBuildProjectName)'=='Melodarr.Console'">Exe</LidarrOutputType>
+    <LidarrOutputType Condition="'$(MSBuildProjectName)'=='Melodarr.Update'">Update</LidarrOutputType>
 
     <!-- Specifies whether it's one of our own libraries -->
     <LidarrProject>false</LidarrProject>
-    <LidarrProject Condition="$(MSBuildProjectName.StartsWith('Lidarr'))">true</LidarrProject>
+    <LidarrProject Condition="$(MSBuildProjectName.StartsWith('Melodarr'))">true</LidarrProject>
     <LidarrProject Condition="$(MSBuildProjectName.StartsWith('ServiceInstall'))">true</LidarrProject>
     <LidarrProject Condition="$(MSBuildProjectName.StartsWith('ServiceUninstall'))">true</LidarrProject>
 
@@ -31,12 +31,17 @@
     <TestProject>false</TestProject>
     <TestProject Condition="$(MSBuildProjectName.EndsWith('.Test'))">true</TestProject>
 
+
     <!-- XML documentation comments are needed to enforce rule IDE0005 on build -->
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <!--
         CS1591: Missing XML comment for publicly visible type or member 'Type_or_Member'
+        NU1510: PackageReference will not be pruned (.NET 10 SDK warning)
+        SYSLIB0014: ServicePointManager is obsolete
+        SYSLIB0057: X509Certificate2 constructor is obsolete
+        ASPDEPR005: ForwardedHeadersOptions.KnownNetworks is obsolete
     -->
-    <NoWarn>$(NoWarn);CS1591</NoWarn>
+    <NoWarn>$(NoWarn);CS1591;NU1510;SYSLIB0014;SYSLIB0057;ASPDEPR005</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -96,7 +101,7 @@
 
   <PropertyGroup>
     <!-- For now keep the NzbDrone namespace -->
-    <RootNamespace Condition="'$(LidarrProject)'=='true'">$(MSBuildProjectName.Replace('Lidarr','NzbDrone'))</RootNamespace>
+    <RootNamespace Condition="'$(LidarrProject)'=='true'">$(MSBuildProjectName.Replace('Melodarr','NzbDrone'))</RootNamespace>
   </PropertyGroup>
 
   <!-- Sentry specific configuration: Only in Release mode -->
@@ -211,7 +216,7 @@
   <PropertyGroup Condition="'$(IsOSX)' == 'true' and
                             '$(RuntimeIdentifier)' == ''">
     <_UsingDefaultRuntimeIdentifier>true</_UsingDefaultRuntimeIdentifier>
-    <RuntimeIdentifier>osx-x64</RuntimeIdentifier>
+    <RuntimeIdentifier>osx-$(Architecture)</RuntimeIdentifier>
   </PropertyGroup>
 
 </Project>

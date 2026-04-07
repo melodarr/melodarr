@@ -434,7 +434,7 @@ namespace NzbDrone.Core.MetadataSource.SkyHook
         {
             // Phase 4C: Support both Melodarr and legacy Lidarr protocol identifiers
             return query.StartsWith("melodarr:") || query.StartsWith("melodarrid:") ||
-                   query.StartsWith("lidarr:") || query.StartsWith("lidarrid:") || 
+                   query.StartsWith("lidarr:") || query.StartsWith("lidarrid:") ||
                    query.StartsWith("mbid:");
         }
 

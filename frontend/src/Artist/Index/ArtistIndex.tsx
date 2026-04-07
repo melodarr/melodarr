@@ -55,7 +55,7 @@ import ArtistIndexSelectModeButton from './Select/ArtistIndexSelectModeButton';
 import ArtistIndexSelectModeMenuItem from './Select/ArtistIndexSelectModeMenuItem';
 import ArtistIndexTable from './Table/ArtistIndexTable';
 import ArtistIndexTableOptions from './Table/ArtistIndexTableOptions';
-import styles from './ArtistIndex.css';
+import styles from './ArtistIndex.module.css';
 
 function getViewComponent(view: string) {
   if (view === 'posters') {

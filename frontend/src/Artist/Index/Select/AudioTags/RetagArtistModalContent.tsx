@@ -14,7 +14,7 @@ import { icons, kinds } from 'Helpers/Props';
 import { executeCommand } from 'Store/Actions/commandActions';
 import createAllArtistSelector from 'Store/Selectors/createAllArtistSelector';
 import translate from 'Utilities/String/translate';
-import styles from './RetagArtistModalContent.css';
+import styles from './RetagArtistModalContent.module.css';
 
 interface RetagArtistModalContentProps {
   artistIds: number[];

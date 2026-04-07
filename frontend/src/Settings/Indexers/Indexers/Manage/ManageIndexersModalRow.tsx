@@ -8,7 +8,7 @@ import TagListConnector from 'Components/TagListConnector';
 import { kinds } from 'Helpers/Props';
 import { SelectStateInputProps } from 'typings/props';
 import translate from 'Utilities/String/translate';
-import styles from './ManageIndexersModalRow.css';
+import styles from './ManageIndexersModalRow.module.css';
 
 interface ManageIndexersModalRowProps {
   id: number;

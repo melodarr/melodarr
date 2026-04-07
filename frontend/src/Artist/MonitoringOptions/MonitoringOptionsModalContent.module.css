@@ -1,0 +1,9 @@
+.labelIcon {
+  margin-left: 8px;
+}
+
+.message {
+  composes: alert from 'Components/Alert.module.css';
+
+  margin-bottom: 30px;
+}

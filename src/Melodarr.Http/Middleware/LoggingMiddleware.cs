@@ -16,11 +16,11 @@ namespace Melodarr.Http.Middleware
         private static readonly Logger _loggerApi = LogManager.GetLogger("Api");
         private static int _requestSequenceID;
 
-        private readonly LidarrErrorPipeline _errorHandler;
+        private readonly MelodarrErrorPipeline _errorHandler;
         private readonly RequestDelegate _next;
 
         public LoggingMiddleware(RequestDelegate next,
-            LidarrErrorPipeline errorHandler)
+            MelodarrErrorPipeline errorHandler)
         {
             _next = next;
             _errorHandler = errorHandler;

@@ -93,7 +93,7 @@ namespace NzbDrone.Common.Reflection
             }
 
             var name = assembly.GetName();
-            return name.Name == "Lidarr.Core" || name.Name.Contains("Lidarr.Plugin");
+            return name.Name == "Lidarr.Core" || name.Name.Contains("Lidarr.Plugin") || name.Name == "Melodarr.Core" || name.Name.Contains("Melodarr.Plugin");
         }
 
         public static bool HasAttribute<TAttribute>(this Type type)

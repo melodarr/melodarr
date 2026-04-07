@@ -5,6 +5,7 @@ using NUnit.Framework;
 namespace NzbDrone.Integration.Test.ApiTests
 {
     [TestFixture]
+    [Category("Routing"), Category("Integration")]
     public class DownloadClientFixture : IntegrationTest
     {
         [Test]

@@ -78,6 +78,7 @@ namespace NzbDrone.Core.Backup
             }
 
             var dateNow = DateTime.Now;
+
             // TODO: Phase 4 - Update backup file naming convention to melodarr_backup
             var backupFilename = $"melodarr_backup_v{BuildInfo.Version}_{dateNow:yyyy.MM.dd_HH.mm.ss}.zip";
             var backupPath = Path.Combine(backupFolder, backupFilename);

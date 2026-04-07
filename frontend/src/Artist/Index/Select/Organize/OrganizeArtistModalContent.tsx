@@ -14,7 +14,7 @@ import { icons, kinds } from 'Helpers/Props';
 import { executeCommand } from 'Store/Actions/commandActions';
 import createAllArtistSelector from 'Store/Selectors/createAllArtistSelector';
 import translate from 'Utilities/String/translate';
-import styles from './OrganizeArtistModalContent.css';
+import styles from './OrganizeArtistModalContent.module.css';
 
 interface OrganizeArtistModalContentProps {
   artistIds: number[];

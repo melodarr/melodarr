@@ -1,0 +1,41 @@
+.legendItem {
+  margin: 3px 0;
+  margin-right: 6px;
+  padding-left: 5px;
+  width: 150px;
+  border-left-width: 4px;
+  border-left-style: solid;
+  cursor: default;
+}
+
+/*
+ * Status
+ */
+
+.downloaded {
+  composes: downloaded from 'Calendar/Events/CalendarEvent.module.css';
+}
+
+.partial {
+  composes: partial from 'Calendar/Events/CalendarEvent.module.css';
+}
+
+.downloading {
+  composes: downloading from 'Calendar/Events/CalendarEvent.module.css';
+}
+
+.unmonitored {
+  composes: unmonitored from 'Calendar/Events/CalendarEvent.module.css';
+}
+
+.onAir {
+  composes: onAir from 'Calendar/Events/CalendarEvent.module.css';
+}
+
+.missing {
+  composes: missing from 'Calendar/Events/CalendarEvent.module.css';
+}
+
+.unreleased {
+  composes: unreleased from 'Calendar/Events/CalendarEvent.module.css';
+}

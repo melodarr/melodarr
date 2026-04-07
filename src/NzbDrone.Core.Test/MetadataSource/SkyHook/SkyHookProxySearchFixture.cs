@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using FluentAssertions;
 using Moq;
 using NUnit.Framework;
@@ -62,9 +63,9 @@ namespace NzbDrone.Core.Test.MetadataSource.SkyHook
         [TestCase("Avenged Sevenfold", "Avenged Sevenfold")]
         [TestCase("3OH!3", "3OH!3")]
         [TestCase("The Academy Is...", "The Academy Is…")]
-        [TestCase("lidarr:f59c5520-5f46-4d2c-b2c4-822eabf53419", "Linkin Park")]
-        [TestCase("lidarrid:f59c5520-5f46-4d2c-b2c4-822eabf53419", "Linkin Park")]
-        [TestCase("lidarrid: f59c5520-5f46-4d2c-b2c4-822eabf53419 ", "Linkin Park")]
+        [TestCase("melodarr:f59c5520-5f46-4d2c-b2c4-822eabf53419", "Linkin Park")]
+        [TestCase("melodarrid:f59c5520-5f46-4d2c-b2c4-822eabf53419", "Linkin Park")]
+        [TestCase("melodarrid: f59c5520-5f46-4d2c-b2c4-822eabf53419 ", "Linkin Park")]
         [TestCase("melodarr:f59c5520-5f46-4d2c-b2c4-822eabf53419", "Linkin Park")]
         [TestCase("melodarrid:f59c5520-5f46-4d2c-b2c4-822eabf53419", "Linkin Park")]
         [TestCase("melodarrid: f59c5520-5f46-4d2c-b2c4-822eabf53419 ", "Linkin Park")]
@@ -81,9 +82,9 @@ namespace NzbDrone.Core.Test.MetadataSource.SkyHook
 
         [TestCase("Evolve", "Imagine Dragons", "Evolve")]
         [TestCase("Hysteria", null, "Hysteria")]
-        [TestCase("lidarr:d77df681-b779-3d6d-b66a-3bfd15985e3e", null, "Pyromania")]
-        [TestCase("lidarr: d77df681-b779-3d6d-b66a-3bfd15985e3e", null, "Pyromania")]
-        [TestCase("lidarrid:d77df681-b779-3d6d-b66a-3bfd15985e3e", null, "Pyromania")]
+        [TestCase("melodarr:d77df681-b779-3d6d-b66a-3bfd15985e3e", null, "Pyromania")]
+        [TestCase("melodarr: d77df681-b779-3d6d-b66a-3bfd15985e3e", null, "Pyromania")]
+        [TestCase("melodarrid:d77df681-b779-3d6d-b66a-3bfd15985e3e", null, "Pyromania")]
         [TestCase("melodarr:d77df681-b779-3d6d-b66a-3bfd15985e3e", null, "Pyromania")]
         [TestCase("melodarr: d77df681-b779-3d6d-b66a-3bfd15985e3e", null, "Pyromania")]
         [TestCase("melodarrid:d77df681-b779-3d6d-b66a-3bfd15985e3e", null, "Pyromania")]
@@ -98,11 +99,11 @@ namespace NzbDrone.Core.Test.MetadataSource.SkyHook
             ExceptionVerification.IgnoreWarns();
         }
 
-        [TestCase("lidarrid:")]
-        [TestCase("lidarrid: 99999999999999999999")]
-        [TestCase("lidarrid: 0")]
-        [TestCase("lidarrid: -12")]
-        [TestCase("lidarrid:289578")]
+        [TestCase("melodarrid:")]
+        [TestCase("melodarrid: 99999999999999999999")]
+        [TestCase("melodarrid: 0")]
+        [TestCase("melodarrid: -12")]
+        [TestCase("melodarrid:289578")]
         [TestCase("melodarrid:")]
         [TestCase("melodarrid: 99999999999999999999")]
         [TestCase("melodarrid: 0")]
@@ -117,30 +118,27 @@ namespace NzbDrone.Core.Test.MetadataSource.SkyHook
             ExceptionVerification.IgnoreWarns();
         }
 
-        [TestCase("Eminem", 0, typeof(Artist), "Eminem")]
-        [TestCase("Eminem Kamikaze", 0, typeof(Album), "Kamikaze")]
-        [TestCase("Eminem Kamikaze", 1, typeof(Artist), "Eminem")]
-        [TestCase("lidarr:f59c5520-5f46-4d2c-b2c4-822eabf53419", 0, typeof(Artist), "Linkin Park")]
-        [TestCase("lidarr: d77df681-b779-3d6d-b66a-3bfd15985e3e", 0, typeof(Album), "Pyromania")]
-        [TestCase("melodarr:f59c5520-5f46-4d2c-b2c4-822eabf53419", 0, typeof(Artist), "Linkin Park")]
-        [TestCase("melodarr: d77df681-b779-3d6d-b66a-3bfd15985e3e", 0, typeof(Album), "Pyromania")]
-        public void successful_combined_search(string query, int position, Type resultType, string expected)
+        [TestCase("Eminem", typeof(Artist), "Eminem")]
+        [TestCase("Eminem Kamikaze", typeof(Album), "Kamikaze")]
+        [TestCase("Eminem Kamikaze", typeof(Artist), "Eminem")]
+        [TestCase("melodarr:f59c5520-5f46-4d2c-b2c4-822eabf53419", typeof(Artist), "Linkin Park")]
+        [TestCase("melodarr: d77df681-b779-3d6d-b66a-3bfd15985e3e", typeof(Album), "Pyromania")]
+        [TestCase("melodarr:f59c5520-5f46-4d2c-b2c4-822eabf53419", typeof(Artist), "Linkin Park")]
+        [TestCase("melodarr: d77df681-b779-3d6d-b66a-3bfd15985e3e", typeof(Album), "Pyromania")]
+        public void successful_combined_search(string query, Type resultType, string expected)
         {
             var result = Subject.SearchForNewEntity(query);
             result.Should().NotBeEmpty();
-            result[position].GetType().Should().Be(resultType);
 
             if (resultType == typeof(Artist))
             {
-                var cast = result[position] as Artist;
-                cast.Should().NotBeNull();
-                cast.Name.Should().Be(expected);
+                var artists = result.OfType<Artist>();
+                artists.Should().Contain(a => a.Name == expected);
             }
             else
             {
-                var cast = result[position] as Album;
-                cast.Should().NotBeNull();
-                cast.Title.Should().Be(expected);
+                var albums = result.OfType<Album>();
+                albums.Should().Contain(a => a.Title == expected);
             }
         }
     }

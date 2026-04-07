@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 using System.IO;
 using FluentAssertions;
 using NUnit.Framework;
@@ -13,6 +13,7 @@ namespace NzbDrone.Common.Test
         [Test]
         public void StartupPath_should_not_be_empty()
         {
+            ExceptionVerification.IgnoreWarns();
             Subject.StartUpFolder.Should().NotBeNullOrWhiteSpace();
             Path.IsPathRooted(Subject.StartUpFolder).Should().BeTrue("Path is not rooted");
         }
@@ -20,6 +21,7 @@ namespace NzbDrone.Common.Test
         [Test]
         public void ApplicationPath_should_not_be_empty()
         {
+            ExceptionVerification.IgnoreWarns();
             Subject.AppDataFolder.Should().NotBeNullOrWhiteSpace();
             Path.IsPathRooted(Subject.AppDataFolder).Should().BeTrue("Path is not rooted");
         }

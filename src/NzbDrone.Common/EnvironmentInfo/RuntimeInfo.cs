@@ -21,7 +21,7 @@ namespace NzbDrone.Common.EnvironmentInfo
             IsWindowsService = hostLifetime is WindowsServiceLifetime;
             IsStarting = true;
 
-            // net8.0 will return Lidarr.dll for entry assembly, we need the actual
+            // net10.0 will return Lidarr.dll for entry assembly, we need the actual
             // executable name (Lidarr on linux).  On mono this will return the location of
             // the mono executable itself, which is not what we want.
             var entry = Process.GetCurrentProcess().MainModule;
@@ -29,7 +29,7 @@ namespace NzbDrone.Common.EnvironmentInfo
             if (entry != null)
             {
                 ExecutingApplication = entry.FileName;
-                IsWindowsTray = OsInfo.IsWindows && entry.ModuleName == $"{ProcessProvider.LIDARR_PROCESS_NAME}.exe";
+                IsWindowsTray = OsInfo.IsWindows && entry.ModuleName == $"{ProcessProvider.MELODARR_PROCESS_NAME}.exe";
             }
         }
 
@@ -92,7 +92,7 @@ namespace NzbDrone.Common.EnvironmentInfo
             {
                 if (OsInfo.IsWindows)
                 {
-                    return IsUserInteractive && Process.GetCurrentProcess().ProcessName.Equals(ProcessProvider.LIDARR_PROCESS_NAME, StringComparison.InvariantCultureIgnoreCase);
+                    return IsUserInteractive && Process.GetCurrentProcess().ProcessName.Equals(ProcessProvider.MELODARR_PROCESS_NAME, StringComparison.InvariantCultureIgnoreCase);
                 }
 
                 return false;
