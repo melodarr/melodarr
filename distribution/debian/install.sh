@@ -1,5 +1,5 @@
 #!/bin/bash
-### Description: Lidarr .NET Debian install
+### Description: Melodarr .NET Debian install
 ### Originally written for Radarr by: DoctorArr - doctorarr@the-rowlands.co.uk on 2021-10-01 v1.0
 ### Updates for servarr suite made by Bakerboy448, DoctorArr, brightghost, aeramor and VP-EN
 ### Version v1.0.0 2023-12-29 - StevieTV - adapted from servarr script for Lidarr installs
@@ -21,7 +21,7 @@ scriptdate="2024-01-06"
 
 set -euo pipefail
 
-echo "Running Lidarr Install Script - Version [$scriptversion] as of [$scriptdate]"
+echo "Running Melodarr Install Script - Version [$scriptversion] as of [$scriptdate]"
 
 # Am I root?, need root!
 

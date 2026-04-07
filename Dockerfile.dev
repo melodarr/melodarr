@@ -1,9 +1,9 @@
-FROM mcr.microsoft.com/dotnet/sdk:8.0
+FROM mcr.microsoft.com/dotnet/sdk:10.0
 
-# Install Node.js (v20) and Yarn to match frontend requirements
+# Install Node.js (v20) and enable Corepack for Yarn 4
 RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
-    && apt-get update && apt-get install -y nodejs \
-    && npm install -g yarn \
+    && apt-get update && apt-get install -y nodejs chromium chromium-driver libnss3 libxcb1 fonts-liberation \
+    && corepack enable \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /source

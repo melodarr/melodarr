@@ -23,9 +23,11 @@ show_menu() {
     echo "[4] Run Target Build"
     echo "[5] Run Tests"
     echo "[6] Stop Environment"
+    echo "[7] Wipe Database (Reset)"
+    echo "[8] Run Linter"
     echo "[0] Exit"
     echo "========================================"
-    read -p "Please select an option [0-6]: " choice
+    read -p "Please select an option [0-8]: " choice
     echo ""
     handle_choice "$choice"
 }
@@ -70,6 +72,21 @@ handle_choice() {
             ;;
         6)
             docker compose -f docker-compose.dev.yml down
+            read -p "Press Enter to return to menu..."
+            show_menu
+            ;;
+        7)
+            echo "Wiping database and configuration files..."
+            docker compose -f docker-compose.dev.yml exec dev-env bash -c 'rm -rf ~/.config/Melodarr/*.db ~/.config/Melodarr/*.db-* ~/.config/Melodarr/config.xml' 2>/dev/null || true
+            curl -s -X POST http://localhost:8686/api/v1/system/restartdb 2>/dev/null || true
+            sleep 2
+            echo "Database wiped and backend restart triggered."
+            read -p "Press Enter to return to menu..."
+            show_menu
+            ;;
+        8)
+            echo "Running Frontend Linter..."
+            docker compose -f docker-compose.dev.yml exec dev-env bash -c 'yarn lint'
             read -p "Press Enter to return to menu..."
             show_menu
             ;;

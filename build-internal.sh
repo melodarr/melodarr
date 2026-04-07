@@ -66,6 +66,10 @@ Build()
     rm -rf $outputFolder
     rm -rf $testPackageFolder
 
+    # Aggressive cleanup of obj/bin to avoid NETSDK1064 and NuGet caching issues
+    echo "Running deep clean on obj and bin directories..."
+    find . -type d \( -name "obj" -o -name "bin" \) -prune -exec rm -rf {} + || true
+
     slnFile=src/Melodarr.sln
 
     if [ $os = "windows" ]; then
