@@ -8,6 +8,7 @@ RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
 
 # Copy source and build
 COPY . .
+RUN rm -f global.json
 RUN ./build.sh --backend --frontend --packages -f net8.0 -r linux-x64
 
 # Package the final runtime image
