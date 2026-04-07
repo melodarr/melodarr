@@ -13,14 +13,14 @@ namespace NzbDrone.Common.Composition
     {
         private static readonly string[] BaseAssemblies =
         {
-            "Lidarr.Host",
-            "Lidarr.Core",
-            "Lidarr.SignalR",
+            "Melodarr.Host",
+            "Melodarr.Core",
+            "Melodarr.SignalR",
             "Melodarr.Api.V1",
             "Melodarr.Http"
         };
 
-        private static readonly string[] UpdateAssemblies = { "Lidarr.Update" };
+        private static readonly string[] UpdateAssemblies = { "Melodarr.Update" };
 
         static AssemblyLoader()
         {
@@ -41,14 +41,26 @@ namespace NzbDrone.Common.Composition
         private static List<Assembly> Load(IList<string> assemblies)
         {
             var toLoad = assemblies.ToList();
-            toLoad.Add("Lidarr.Common");
-            toLoad.Add(OsInfo.IsWindows ? "Lidarr.Windows" : "Lidarr.Mono");
+            toLoad.Add("Melodarr.Common");
+
+            var platformAssembly = OsInfo.IsWindows ? "Melodarr.Windows" : "Melodarr.Mono";
 
             var startupPath = AppDomain.CurrentDomain.BaseDirectory;
 
-            return toLoad
+            var loaded = toLoad
                 .Select(x => AssemblyLoadContext.Default.LoadFromAssemblyPath(Path.Combine(startupPath, $"{x}.dll")))
                 .ToList();
+
+            // Platform-specific assembly is optional — it provides helpers for
+            // symlinks, permissions, etc. but is not required for basic operation.
+            // In dev (dotnet watch) it may not be in the output directory.
+            var platformPath = Path.Combine(startupPath, $"{platformAssembly}.dll");
+            if (File.Exists(platformPath))
+            {
+                loaded.Add(AssemblyLoadContext.Default.LoadFromAssemblyPath(platformPath));
+            }
+
+            return loaded;
         }
 
         private static Assembly ContainerResolveEventHandler(object sender, ResolveEventArgs args)

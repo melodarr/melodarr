@@ -1,0 +1,18 @@
+services:
+  dev-env:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: melodarr-dev-env
+    volumes:
+      - .:/source
+    ports:
+      - "8686:8686"
+    environment:
+      # Ensure files created inside the container align with your macOS host user
+      - PUID=1000
+      - PGID=1000
+      - ASPNETCORE_ENVIRONMENT=Development
+    # Keep container running transparently in the background
+    tty: true
+    init: true

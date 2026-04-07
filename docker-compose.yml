@@ -1,0 +1,23 @@
+name: melodarr
+
+services:
+  melodarr:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: melodarr
+    image: ghcr.io/melodarr/melodarr:local
+    ports:
+      - "8686:8686"
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+    volumes:
+      - melodarr-config:/config
+      - ./data/downloads:/downloads
+      - ./data/music:/music
+    restart: unless-stopped
+
+volumes:
+  melodarr-config:

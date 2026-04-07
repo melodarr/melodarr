@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
     <TargetFrameworks>net8.0</TargetFrameworks>
     <OutputType>Library</OutputType>
@@ -16,6 +16,12 @@
     <ProjectReference Include="..\NzbDrone.Core\Melodarr.Core.csproj" />
     <ProjectReference Include="..\NzbDrone.SignalR\Melodarr.SignalR.csproj" />
     <ProjectReference Include="..\Melodarr.Http\Melodarr.Http.csproj" />
+  </ItemGroup>
+  <ItemGroup Condition="!$(RuntimeIdentifier.StartsWith('win')) AND '$(OS)' != 'Windows_NT'">
+    <ProjectReference Include="..\NzbDrone.Mono\Melodarr.Mono.csproj" />
+  </ItemGroup>
+  <ItemGroup Condition="$(RuntimeIdentifier.StartsWith('win')) OR '$(OS)' == 'Windows_NT'">
+    <ProjectReference Include="..\NzbDrone.Windows\Melodarr.Windows.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Interop.NetFwTypeLib">

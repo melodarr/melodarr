@@ -1,7 +1,7 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 // README at: https://github.com/devcontainers/templates/tree/main/src/dotnet
 {
-  "name": "Lidarr",
+  "name": "Melodarr",
   "image": "mcr.microsoft.com/devcontainers/dotnet:1-8.0",
   "features": {
     "ghcr.io/devcontainers/features/node:1": {
@@ -11,9 +11,25 @@
     }
   },
   "forwardPorts": [8686],
+  "postCreateCommand": "yarn install --network-timeout 120000",
   "customizations": {
     "vscode": {
-      "extensions": ["esbenp.prettier-vscode"]
+      "extensions": [
+        "ms-dotnettools.csdevkit",
+        "ms-dotnettools.csharp",
+        "dbaeumer.vscode-eslint",
+        "stylelint.vscode-stylelint",
+        "esbenp.prettier-vscode"
+      ],
+      "settings": {
+        "editor.formatOnSave": true,
+        "eslint.validate": [
+          "javascript",
+          "javascriptreact",
+          "typescript",
+          "typescriptreact"
+        ]
+      }
     }
   }
 }
