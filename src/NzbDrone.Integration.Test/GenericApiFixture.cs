@@ -6,6 +6,8 @@ using RestSharp;
 namespace NzbDrone.Integration.Test
 {
     [TestFixture]
+    [Category("IntegrationHost")]
+    [Category("Smoke")]
     public class GenericApiFixture : IntegrationTest
     {
         [TestCase("application/json")]

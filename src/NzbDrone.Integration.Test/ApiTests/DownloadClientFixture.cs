@@ -5,7 +5,9 @@ using NUnit.Framework;
 namespace NzbDrone.Integration.Test.ApiTests
 {
     [TestFixture]
-    [Category("Routing"), Category("Integration")]
+    [Category("Routing")]
+    [Category("Integration")]
+    [Category("DownloadClientApi")]
     public class DownloadClientFixture : IntegrationTest
     {
         [Test]
@@ -94,6 +96,8 @@ namespace NzbDrone.Integration.Test.ApiTests
         }
 
         [Test]
+        [Category("Routing")]
+        [Category("Integration")]
         public void get_downloadclient_by_unknown_id_should_return_404()
         {
             var result = DownloadClients.InvalidGet(1000000);

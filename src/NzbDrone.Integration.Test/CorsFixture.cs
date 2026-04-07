@@ -6,6 +6,7 @@ using RestSharp;
 namespace NzbDrone.Integration.Test
 {
     [TestFixture]
+    [Category("IntegrationHost")]
     public class CorsFixture : IntegrationTest
     {
         private RestRequest BuildGet(string route = "artist")

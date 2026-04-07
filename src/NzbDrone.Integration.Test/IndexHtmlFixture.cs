@@ -7,6 +7,7 @@ using NUnit.Framework;
 namespace NzbDrone.Integration.Test
 {
     [TestFixture]
+    [Category("IntegrationHost")]
     public class IndexHtmlFixture : IntegrationTest
     {
         private HttpClient _httpClient = new HttpClient();

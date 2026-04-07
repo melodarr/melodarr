@@ -5,6 +5,7 @@ using FluentAssertions;
 using Melodarr.Http;
 using Melodarr.Http.REST;
 using NLog;
+using NUnit.Framework;
 using NzbDrone.Common.Serializer;
 using RestSharp;
 
@@ -51,11 +52,11 @@ namespace NzbDrone.Integration.Test.Client
                 throw response.ErrorException;
             }
 
-            AssertDisableCache(response);
-
             response.ErrorMessage.Should().BeNullOrWhiteSpace();
 
             response.StatusCode.Should().Be(statusCode, response.Content ?? string.Empty);
+
+            AssertDisableCache(response);
 
             return response.Content;
         }
@@ -72,10 +73,30 @@ namespace NzbDrone.Integration.Test.Client
         {
             // cache control header gets reordered on net core
             var headers = response.Headers;
-            ((string)headers.Single(c => c.Name == "Cache-Control").Value).Split(',').Select(x => x.Trim())
+            var cacheControl = headers.SingleOrDefault(c => c.Name == "Cache-Control");
+            if (cacheControl == null)
+            {
+                Assert.Fail($"Response missing Cache-Control header. HTTP {response.StatusCode}. Body: {response.Content}");
+            }
+
+            ((string)cacheControl.Value).Split(',').Select(x => x.Trim())
                 .Should().BeEquivalentTo("no-store, no-cache".Split(',').Select(x => x.Trim()));
-            headers.Single(c => c.Name == "Pragma").Value.Should().Be("no-cache");
-            headers.Single(c => c.Name == "Expires").Value.Should().Be("-1");
+
+            var pragma = headers.SingleOrDefault(c => c.Name == "Pragma");
+            if (pragma == null)
+            {
+                Assert.Fail($"Response missing Pragma header. HTTP {response.StatusCode}. Body: {response.Content}");
+            }
+
+            pragma.Value.Should().Be("no-cache");
+
+            var expires = headers.SingleOrDefault(c => c.Name == "Expires");
+            if (expires == null)
+            {
+                Assert.Fail($"Response missing Expires header. HTTP {response.StatusCode}. Body: {response.Content}");
+            }
+
+            expires.Value.Should().Be("-1");
         }
     }
 

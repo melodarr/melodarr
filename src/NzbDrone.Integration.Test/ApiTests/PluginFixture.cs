@@ -11,7 +11,8 @@ using RestSharp;
 namespace NzbDrone.Integration.Test.ApiTests
 {
     [TestFixture]
-    [Category("Plugin"), Category("External"), Category("Integration")]
+    [Category("Plugin")]
+    [Category("Integration")]
     public class PluginFixture : IntegrationTest
     {
         private string _dummyPluginPath;
@@ -35,6 +36,7 @@ namespace NzbDrone.Integration.Test.ApiTests
 
         [Test]
         [Order(0)]
+        [Category("PluginInstall")]
         public void should_install_plugin()
         {
             PostAndWaitForCompletion(new InstallPluginCommand
@@ -53,6 +55,7 @@ namespace NzbDrone.Integration.Test.ApiTests
 
         [Test]
         [Order(1)]
+        [Category("PluginUninstall")]
         public void should_uninstall_plugin()
         {
             var plugins = Plugins.All();
@@ -182,6 +185,21 @@ namespace NzbDrone.Integration.Test.ApiTests
             }
 
             Assert.Fail("Timed out waiting for restart");
+        }
+
+        [Test]
+        [Category("External")]
+        public void should_install_plugin_from_github()
+        {
+            // Extracted from the main flow to isolate network/third-party dependency failures
+            Assert.Ignore("Defunct target: ta264/Melodarr.Plugin.Deemix. Needs a reliable external test target repository before enabling.");
+
+            PostAndWaitForCompletion(new InstallPluginCommand
+            {
+                GithubUrl = "https://github.com/ta264/Melodarr.Plugin.Deemix"
+            });
+
+            // Note: External installation asserts would follow here.
         }
     }
 }

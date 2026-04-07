@@ -7,7 +7,9 @@ using NUnit.Framework;
 namespace NzbDrone.Integration.Test.ApiTests
 {
     [TestFixture]
-    [Category("Routing"), Category("Integration")]
+    [Category("Routing")]
+    [Category("Integration")]
+    [Category("ArtistApi")]
     public class ArtistFixture : IntegrationTest
     {
         [Test]
@@ -104,6 +106,8 @@ namespace NzbDrone.Integration.Test.ApiTests
         }
 
         [Test]
+        [Category("Routing")]
+        [Category("Integration")]
         public void get_artist_by_unknown_id_should_return_404()
         {
             var result = Artist.InvalidGet(1000000);

@@ -13,7 +13,10 @@ using NzbDrone.Core.Update;
 namespace NzbDrone.Core.Test.UpdateTests
 {
     [TestFixture]
-    [Category("Updates"), Category("External"), Category("Integration")]
+    [Category("Updates")]
+    [Category("External")]
+    [Category("Integration")]
+    [Category("UpdateDownload")]
     public class UpdatePackageProviderFixture : CoreTest<UpdatePackageProvider>
     {
         [SetUp]

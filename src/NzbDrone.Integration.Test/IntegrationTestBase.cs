@@ -225,22 +225,45 @@ namespace NzbDrone.Integration.Test
         public static void WaitForCompletion(Func<bool> predicate, int timeout = 10000, int interval = 500)
         {
             var count = timeout / interval;
+            Exception lastException = null;
+
             for (var i = 0; i < count; i++)
             {
-                if (predicate())
+                try
                 {
-                    return;
+                    if (predicate())
+                    {
+                        return;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    lastException = ex;
                 }
 
                 Thread.Sleep(interval);
             }
 
-            if (predicate())
+            try
             {
-                return;
+                if (predicate())
+                {
+                    return;
+                }
+            }
+            catch (Exception ex)
+            {
+                lastException = ex;
             }
 
-            Assert.Fail("Timed on wait");
+            if (lastException != null)
+            {
+                Assert.Fail($"Timed out waiting for completion. Last exception: {lastException.Message}");
+            }
+            else
+            {
+                Assert.Fail("Timed out waiting for completion");
+            }
         }
 
         public ArtistResource EnsureArtist(string melodarrId, string artistName, bool? monitored = null)

@@ -6,6 +6,7 @@ using NUnit.Framework;
 namespace NzbDrone.Integration.Test
 {
     [TestFixture]
+    [Category("IntegrationHost")]
     public class HttpLogFixture : IntegrationTest
     {
         [Test]

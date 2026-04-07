@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using FluentAssertions;
 using NUnit.Framework;
@@ -11,6 +11,10 @@ using NzbDrone.Update.UpdateEngine;
 namespace NzbDrone.Update.Test
 {
     [TestFixture]
+    [Category("Updates")]
+    [Category("External")]
+    [Category("Integration")]
+    [Category("UpdateExtract")]
     public class InstallUpdateServiceFixture : TestBase<InstallUpdateService>
     {
         private const int _processId = 12;

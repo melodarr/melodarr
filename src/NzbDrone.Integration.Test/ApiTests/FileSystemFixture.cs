@@ -13,6 +13,7 @@ using RestSharp;
 namespace NzbDrone.Integration.Test.ApiTests
 {
     [TestFixture]
+    [Category("Platform")]
     public class FileSystemFixture : IntegrationTest
     {
         public ClientBase FileSystem;

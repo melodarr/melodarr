@@ -22,7 +22,9 @@ using NzbDrone.Test.Common.Categories;
 namespace NzbDrone.Core.Test.UpdateTests
 {
     [TestFixture]
-    [Category("Updates"), Category("External"), Category("Integration")]
+    [Category("Updates")]
+    [Category("External")]
+    [Category("Integration")]
     public class UpdateServiceFixture : CoreTest<InstallUpdateService>
     {
         private string _sandboxFolder;
