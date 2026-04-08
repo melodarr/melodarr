@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-docker compose -f docker-compose.dev.yml run --rm dev-env bash ./test-internal.sh "$@"
+docker compose -f docker-compose.yml -f docker-compose.dev.yml run --rm melodarr-app bash ./test-internal.sh "$@"

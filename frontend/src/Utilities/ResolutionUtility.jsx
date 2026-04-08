@@ -1,6 +1,6 @@
 import $ from 'jquery';
 
-module.exports = {
+export default {
   resolutions: {
     desktopLarge: 1200,
     desktop: 992,

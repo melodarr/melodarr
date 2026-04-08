@@ -8,7 +8,7 @@ const purple = '#7a43b6';
 const pink = '#ff69b4';
 const lightGray = '#ddd';
 
-module.exports = {
+export default {
   textColor: '#515253',
   defaultColor: '#333',
   disabledColor: '#999',

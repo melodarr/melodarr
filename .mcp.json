@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "context7": {
+      "command": "npx",
+      "args": ["-y", "@upstash/context7-mcp@latest"],
+      "env": {
+        "PATH": "/Users/yourname/.nvm/versions/node/v23.3.0/bin:/usr/local/bin:/usr/bin:/bin"
+      }
+    }
+  }
+}   

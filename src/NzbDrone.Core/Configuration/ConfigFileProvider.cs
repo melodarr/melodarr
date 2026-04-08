@@ -172,7 +172,7 @@ namespace NzbDrone.Core.Configuration
             }
         }
 
-        public int Port => _serverOptions.Port ?? GetValueInt("Port", 8686);
+        public int Port => _serverOptions.Port ?? GetValueInt("Port", 8687);
 
         public int SslPort => _serverOptions.SslPort ?? GetValueInt("SslPort", 6868);
 
@@ -273,7 +273,27 @@ namespace NzbDrone.Core.Configuration
             }
         }
 
-        public string UiFolder => BuildInfo.IsDebug ? Path.Combine("..", "UI") : "UI";
+        public string UiFolder
+        {
+            get
+            {
+                var startupFolder = new FileInfo(System.Reflection.Assembly.GetExecutingAssembly().Location).Directory.FullName;
+                if (!Directory.Exists(Path.Combine(startupFolder, "UI")))
+                {
+                    if (Directory.Exists(Path.Combine(startupFolder, "..", "UI")))
+                    {
+                        return Path.Combine("..", "UI");
+                    }
+
+                    if (Directory.Exists(Path.Combine(startupFolder, "..", "..", "UI")))
+                    {
+                        return Path.Combine("..", "..", "UI");
+                    }
+                }
+
+                return "UI";
+            }
+        }
 
         public string InstanceName
         {

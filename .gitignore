@@ -172,3 +172,5 @@ node_modules.nosync
 .local/
 test_results.txt
 src/Library/
+.vercel
+.env

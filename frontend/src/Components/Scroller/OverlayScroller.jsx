@@ -1,10 +1,7 @@
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
-import { Scrollbars } from 'react-custom-scrollbars-2';
+import React, { Component, createRef } from 'react';
 import { scrollDirections } from 'Helpers/Props';
 import styles from './OverlayScroller.module.css';
-
-const SCROLLBAR_SIZE = 10;
 
 class OverlayScroller extends Component {
 
@@ -13,94 +10,29 @@ class OverlayScroller extends Component {
 
   constructor(props, context) {
     super(props, context);
-
-    this._scroller = null;
+    this.viewRef = createRef();
     this._isScrolling = false;
   }
 
   componentDidUpdate(prevProps) {
-    const {
-      scrollTop
-    } = this.props;
+    const { scrollTop } = this.props;
 
     if (
       !this._isScrolling &&
       scrollTop != null &&
-      scrollTop !== prevProps.scrollTop
+      scrollTop !== prevProps.scrollTop &&
+      this.viewRef.current
     ) {
-      this._scroller.scrollTop(scrollTop);
+      this.viewRef.current.scrollTop = scrollTop;
     }
   }
 
-  //
-  // Control
-
-  _setScrollRef = (ref) => {
-    this._scroller = ref;
-
-    if (ref) {
-      this.props.registerScroller(ref.view);
-    }
-  };
-
-  _renderThumb = (props) => {
-    return (
-      <div
-        className={this.props.trackClassName}
-        {...props}
-      />
-    );
-  };
-
-  _renderTrackHorizontal = ({ style, props }) => {
-    const finalStyle = {
-      ...style,
-      right: 2,
-      bottom: 2,
-      left: 2,
-      borderRadius: 3,
-      height: SCROLLBAR_SIZE
-    };
-
-    return (
-      <div
-        className={styles.track}
-        style={finalStyle}
-        {...props}
-      />
-    );
-  };
-
-  _renderTrackVertical = ({ style, props }) => {
-    const finalStyle = {
-      ...style,
-      right: 2,
-      bottom: 2,
-      top: 2,
-      borderRadius: 3,
-      width: SCROLLBAR_SIZE
-    };
-
-    return (
-      <div
-        className={styles.track}
-        style={finalStyle}
-        {...props}
-      />
-    );
-  };
-
-  _renderView = (props) => {
-    return (
-      <div
-        className={this.props.className}
-        {...props}
-      />
-    );
-  };
+  componentDidMount() {
+    this.props.registerScroller(this.viewRef.current);
+  }
 
   //
-  // Listers
+  // Listeners
 
   onScrollStart = () => {
     this._isScrolling = true;
@@ -111,10 +43,7 @@ class OverlayScroller extends Component {
   };
 
   onScroll = (event) => {
-    const {
-      scrollTop,
-      scrollLeft
-    } = event.currentTarget;
+    const { scrollTop, scrollLeft } = event.currentTarget;
 
     this._isScrolling = true;
     const onScroll = this.props.onScroll;
@@ -122,34 +51,26 @@ class OverlayScroller extends Component {
     if (onScroll) {
       onScroll({ scrollTop, scrollLeft });
     }
+    
+    clearTimeout(this.scrollTimeout);
+    this.scrollTimeout = setTimeout(this.onScrollStop, 150);
   };
 
   //
   // Render
 
   render() {
-    const {
-      autoHide,
-      autoScroll,
-      children
-    } = this.props;
+    const { className, children } = this.props;
 
     return (
-      <Scrollbars
-        ref={this._setScrollRef}
-        autoHide={autoHide}
-        hideTracksWhenNotNeeded={autoScroll}
-        renderTrackHorizontal={this._renderTrackHorizontal}
-        renderTrackVertical={this._renderTrackVertical}
-        renderThumbHorizontal={this._renderThumb}
-        renderThumbVertical={this._renderThumb}
-        renderView={this._renderView}
-        onScrollStart={this.onScrollStart}
-        onScrollStop={this.onScrollStop}
+      <div
+        className={className}
+        ref={this.viewRef}
         onScroll={this.onScroll}
+        style={{ overflow: 'auto', height: '100%', width: '100%' }}
       >
         {children}
-      </Scrollbars>
+      </div>
     );
   }
 

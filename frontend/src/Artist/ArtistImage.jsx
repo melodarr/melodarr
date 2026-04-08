@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import LazyLoad from 'react-lazyload';
 
 function findImage(images, coverType) {
   return images.find((image) => image.coverType === coverType);
@@ -117,9 +116,7 @@ class ArtistImage extends Component {
       className,
       style,
       placeholder,
-      size,
-      lazy,
-      overflow
+      lazy
     } = this.props;
 
     const {
@@ -134,43 +131,25 @@ class ArtistImage extends Component {
           className={className}
           style={style}
           src={placeholder}
+          alt=""
         />
       );
     }
 
-    if (lazy) {
-      return (
-        <LazyLoad
-          height={size}
-          offset={100}
-          overflow={overflow}
-          placeholder={
-            <img
-              className={className}
-              style={style}
-              src={placeholder}
-            />
-          }
-        >
-          <img
-            className={className}
-            style={style}
-            src={url}
-            onError={this.onError}
-            onLoad={this.onLoad}
-            rel="noreferrer"
-          />
-        </LazyLoad>
-      );
-    }
+    const mergedStyle = isLoaded ?
+      style :
+      { ...style, backgroundImage: `url(${placeholder})`, backgroundSize: 'cover', backgroundPosition: 'center' };
 
     return (
       <img
         className={className}
-        style={style}
-        src={isLoaded ? url : placeholder}
+        style={mergedStyle}
+        src={url}
+        loading={lazy ? 'lazy' : undefined}
         onError={this.onError}
         onLoad={this.onLoad}
+        rel="noreferrer"
+        alt=""
       />
     );
   }

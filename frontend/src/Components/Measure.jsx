@@ -1,38 +1,36 @@
 import _ from 'lodash';
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
-import ReactMeasure from 'react-measure';
+import React, { useEffect, useMemo } from 'react';
+import useMeasure from 'react-use-measure';
 
-class Measure extends Component {
+export default function Measure(props) {
+  const [ref, bounds] = useMeasure();
+  const { onMeasure } = props;
 
-  //
-  // Lifecycle
+  const debouncedMeasure = useMemo(() => {
+    return _.debounce((payload) => {
+      onMeasure(payload);
+    }, 250, { leading: true, trailing: false });
+  }, [onMeasure]);
 
-  componentWillUnmount() {
-    this.onMeasure.cancel();
-  }
+  useEffect(() => {
+    debouncedMeasure(bounds);
+  }, [bounds, debouncedMeasure]);
 
-  //
-  // Listeners
+  useEffect(() => {
+    return () => {
+      debouncedMeasure.cancel();
+    };
+  }, [debouncedMeasure]);
 
-  onMeasure = _.debounce((payload) => {
-    this.props.onMeasure(payload);
-  }, 250, { leading: true, trailing: false });
-
-  //
-  // Render
-
-  render() {
-    return (
-      <ReactMeasure
-        {...this.props}
-      />
-    );
-  }
+  return (
+    <div ref={ref} style={{ width: '100%', height: '100%' }}>
+      {props.children}
+    </div>
+  );
 }
 
 Measure.propTypes = {
-  onMeasure: PropTypes.func.isRequired
+  onMeasure: PropTypes.func.isRequired,
+  children: PropTypes.node.isRequired
 };
-
-export default Measure;

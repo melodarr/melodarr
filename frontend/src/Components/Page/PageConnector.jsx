@@ -258,6 +258,7 @@ class PageConnector extends Component {
   // Render
 
   render() {
+    console.log('PageConnector is rendering!', this.props.isPopulated, this.props.hasError, this.state.isLocalStorageSupported);
     const {
       isPopulated,
       hasError,

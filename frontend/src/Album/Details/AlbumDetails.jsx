@@ -2,7 +2,7 @@ import _ from 'lodash';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import TextTruncate from 'react-text-truncate';
+
 import AlbumCover from 'Album/AlbumCover';
 import DeleteAlbumModal from 'Album/Delete/DeleteAlbumModal';
 import EditAlbumModalConnector from 'Album/Edit/EditAlbumModalConnector';
@@ -357,10 +357,18 @@ class AlbumDetails extends Component {
                       className={styles.title}
                       title={disambiguation ? `${title} (${disambiguation})` : title}
                     >
-                      <TextTruncate
-                        line={2}
-                        text={disambiguation ? `${title} (${disambiguation})` : title}
-                      />
+                      <div
+                        style={{
+                          display: '-webkit-box',
+                          WebkitLineClamp: 2,
+                          WebkitBoxOrient: 'vertical',
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
+                          wordBreak: 'break-word',
+                        }}
+                      >
+                        {disambiguation ? `${title} (${disambiguation})` : title}
+                      </div>
                     </div>
                   </div>
 

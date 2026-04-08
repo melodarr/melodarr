@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import TextTruncate from 'react-text-truncate';
+
 import ArtistPoster from 'Artist/ArtistPoster';
 import HeartRating from 'Components/HeartRating';
 import Icon from 'Components/Icon';
@@ -193,11 +193,18 @@ class AddNewArtistSearchResult extends Component {
                 maxHeight: `${height}px`
               }}
             >
-              <TextTruncate
-                truncateText="…"
-                line={Math.floor(height / (defaultFontSize * lineHeight))}
-                text={overview}
-              />
+              <div
+                style={{
+                  display: '-webkit-box',
+                  WebkitLineClamp: Math.floor(height / (defaultFontSize * lineHeight)),
+                  WebkitBoxOrient: 'vertical',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  wordBreak: 'break-word',
+                }}
+              >
+                {overview}
+              </div>
             </div>
           </div>
         </div>

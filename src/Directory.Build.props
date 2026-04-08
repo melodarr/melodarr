@@ -40,8 +40,9 @@
         SYSLIB0014: ServicePointManager is obsolete
         SYSLIB0057: X509Certificate2 constructor is obsolete
         ASPDEPR005: ForwardedHeadersOptions.KnownNetworks is obsolete
+        SA1200: StyleCop 1.1.118 does not honor stylecop.json usingDirectivesPlacement under .NET 10 Roslyn
     -->
-    <NoWarn>$(NoWarn);CS1591;NU1510;SYSLIB0014;SYSLIB0057;ASPDEPR005</NoWarn>
+    <NoWarn>$(NoWarn);CS1591;NU1510;SYSLIB0014;SYSLIB0057;ASPDEPR005;SA1200</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup>

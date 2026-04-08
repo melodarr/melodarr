@@ -1,13 +1,10 @@
 services:
-  dev-env:
+  melodarr-app:
     build:
       context: .
       dockerfile: Dockerfile.dev
-    container_name: melodarr-dev-env
     volumes:
       - .:/source
-    ports:
-      - "8686:8686"
     environment:
       # Ensure files created inside the container align with your macOS host user
       - PUID=1000

@@ -1,14 +1,71 @@
-import { defineConfig } from "vite";
+import { defineConfig, createLogger } from "vite";
 import react from "@vitejs/plugin-react";
 import { viteStaticCopy } from "vite-plugin-static-copy";
 import path from "path";
 
+const customLogger = createLogger();
+const originalWarn = customLogger.warn;
+customLogger.warn = (msg, options) => {
+  if (msg.includes("doesn't exist at build time, it will remain unchanged to be resolved at runtime")) {
+    return;
+  }
+  originalWarn(msg, options);
+};
+
 export default defineConfig({
+  customLogger,
   root: ".", // because package.json script runs "vite build frontend --config frontend/vite.config.ts" which sets cwd to frontend.
   build: {
-    outDir: "../_output/UI",
-    emptyOutDir: false,
+    outDir: "dist",
+    emptyOutDir: true,
     target: "esnext",
+    chunkSizeWarningLimit: 2000,
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (!id.includes('node_modules')) return;
+
+          // React core + DOM
+          if (id.includes('/react-dom/') || id.includes('/react/')) {
+            return 'vendor-react';
+          }
+          // State management
+          if (id.includes('/redux/') || id.includes('/react-redux/') ||
+              id.includes('/redux-thunk/') || id.includes('/reselect/')) {
+            return 'vendor-state';
+          }
+          // Routing
+          if (id.includes('/react-router/') || id.includes('/react-router-dom/')) {
+            return 'vendor-router';
+          }
+          // SignalR real-time
+          if (id.includes('/@microsoft/signalr/')) {
+            return 'vendor-signalr';
+          }
+          // Heavy utilities
+          if (id.includes('/lodash/') || id.includes('/moment/') || id.includes('/jquery/')) {
+            return 'vendor-utils';
+          }
+          // Virtualized rendering
+          if (id.includes('/react-virtualized/')) {
+            return 'vendor-table';
+          }
+          // Drag and drop
+          if (id.includes('/react-dnd/') || id.includes('/react-dnd-html5-backend/') ||
+              id.includes('/dnd-core/')) {
+            return 'vendor-dnd';
+          }
+        }
+      },
+      // Suppress known benign warnings from third-party packages
+      onwarn(warning, defaultHandler) {
+        // SignalR: misplaced /*#__PURE__*/ annotations
+        if (warning.code === 'INVALID_ANNOTATION' && warning.id?.includes('signalr')) return;
+        // react-virtualized: stale flow-type proptype export
+        if (warning.code === 'MISSING_EXPORT' && warning.id?.includes('react-virtualized')) return;
+        defaultHandler(warning);
+      }
+    },
     commonjsOptions: {
       include: [/node_modules/, /src\/Styles\/Variables\/.+\.js$/]
     }
@@ -70,7 +127,9 @@ export default defineConfig({
         { src: "src/Content/Images/*.*", dest: "Content/Images" },
         { src: "src/Content/robots.txt", dest: "Content" },
         { src: "src/Content/manifest.json", dest: "Content" },
-        { src: "src/Content/browserconfig.xml", dest: "Content" }
+        { src: "src/Content/browserconfig.xml", dest: "Content" },
+        { src: "login.html", dest: "." },
+        { src: "oauth.html", dest: "." }
       ]
     })
   ]

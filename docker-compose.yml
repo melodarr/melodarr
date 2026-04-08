@@ -1,23 +1,50 @@
 name: melodarr
 
 services:
-  melodarr:
+  melodarr-app:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: melodarr
+    container_name: melodarr-app
     image: ghcr.io/melodarr/melodarr:local
+    depends_on:
+      melodarr-db:
+        condition: service_healthy
     ports:
-      - "8686:8686"
+      - "8687:8686"
     environment:
       - PUID=1000
       - PGID=1000
       - TZ=Etc/UTC
+      - Melodarr__Postgres__Host=melodarr-db
+      - Melodarr__Postgres__Port=5432
+      - Melodarr__Postgres__User=melodarr
+      - Melodarr__Postgres__Password=${MELODARR_DB_PASSWORD}
+      - Melodarr__Postgres__MainDb=melodarr_main
+      - Melodarr__Postgres__LogDb=melodarr_log
     volumes:
       - melodarr-config:/config
       - ./data/downloads:/downloads
       - ./data/music:/music
     restart: unless-stopped
 
+  melodarr-db:
+    image: postgres:15
+    container_name: melodarr-db
+    environment:
+      - POSTGRES_USER=melodarr
+      - POSTGRES_PASSWORD=${MELODARR_DB_PASSWORD}
+      - POSTGRES_DB=melodarr_main
+    volumes:
+      - melodarr-db-data:/var/lib/postgresql/data
+      - ./postgres-init.sh:/docker-entrypoint-initdb.d/init.sh:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U melodarr -d melodarr_main"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
 volumes:
   melodarr-config:
+  melodarr-db-data:

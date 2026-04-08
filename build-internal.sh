@@ -115,7 +115,7 @@ PackageFiles()
     mkdir -p $folder
     cp -r $outputFolder/$framework/$runtime/publish/* $folder
     cp -r $outputFolder/Melodarr.Update/$framework/$runtime/publish $folder/Melodarr.Update
-    cp -r $outputFolder/UI $folder
+    cp -r frontend/dist $folder/UI
 
     echo "Adding LICENSE"
     cp LICENSE.md $folder

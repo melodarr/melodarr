@@ -1,2 +1,2 @@
 /* eslint no-undef: 0 */
-__webpack_public_path__ = `${window.Melodarr.urlBase}/`;
+window.__webpack_public_path__ = `${window.Melodarr.urlBase}/`;

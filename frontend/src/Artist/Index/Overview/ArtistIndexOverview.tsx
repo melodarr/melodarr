@@ -1,6 +1,5 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import TextTruncate from 'react-text-truncate';
 import { Statistics } from 'Artist/Artist';
 import ArtistPoster from 'Artist/ArtistPoster';
 import DeleteArtistModal from 'Artist/Delete/DeleteArtistModal';
@@ -205,12 +204,20 @@ function ArtistIndexOverview(props: ArtistIndexOverviewProps) {
 
           <div className={styles.details}>
             <Link className={styles.overview} to={link}>
-              <TextTruncate
-                line={Math.floor(
-                  overviewHeight / (defaultFontSize * lineHeight)
-                )}
-                text={overview}
-              />
+              <div
+                style={{
+                  display: '-webkit-box',
+                  WebkitLineClamp: Math.floor(
+                    overviewHeight / (defaultFontSize * lineHeight)
+                  ),
+                  WebkitBoxOrient: 'vertical',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  wordBreak: 'break-word',
+                }}
+              >
+                {overview}
+              </div>
             </Link>
 
             <ArtistIndexOverviewInfo

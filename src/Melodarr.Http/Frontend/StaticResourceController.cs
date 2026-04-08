@@ -33,6 +33,17 @@ namespace Melodarr.Http.Frontend
             return await MapResource("login");
         }
 
+        [AllowAnonymous]
+        [HttpGet("debug-paths")]
+        public IActionResult DebugPaths()
+        {
+            return Ok(new
+            {
+                baseDirectory = System.AppDomain.CurrentDomain.BaseDirectory,
+                execAssembly = System.Reflection.Assembly.GetExecutingAssembly().Location
+            });
+        }
+
         [EnableCors("AllowGet")]
         [AllowAnonymous]
         [HttpGet("/content/{**path:regex(^(?!api/).*)}")]
@@ -41,8 +52,8 @@ namespace Melodarr.Http.Frontend
             return await MapResource("Content/" + path);
         }
 
-        [HttpGet("")]
-        [HttpGet("/{**path:regex(^(?!(api|feed)/).*)}")]
+        [HttpGet("", Order = 0)]
+        [HttpGet("/{**path:regex(^(?!(api|feed)/).*)}", Order = 1)]
         public async Task<IActionResult> Index([FromRoute] string path)
         {
             return await MapResource(path);

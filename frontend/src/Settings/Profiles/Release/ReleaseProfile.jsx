@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import MiddleTruncate from 'react-middle-truncate';
+
 import Card from 'Components/Card';
 import Label from 'Components/Label';
 import ConfirmModal from 'Components/Modal/ConfirmModal';
@@ -92,11 +92,9 @@ class ReleaseProfile extends Component {
                   key={item}
                   kind={kinds.SUCCESS}
                 >
-                  <MiddleTruncate
-                    text={item}
-                    start={10}
-                    end={10}
-                  />
+                  <span title={item}>
+                    {item.length > 20 ? `${item.slice(0, 10)}...${item.slice(-10)}` : item}
+                  </span>
                 </Label>
               );
             })
@@ -116,11 +114,9 @@ class ReleaseProfile extends Component {
                   key={item}
                   kind={kinds.DANGER}
                 >
-                  <MiddleTruncate
-                    text={item}
-                    start={10}
-                    end={10}
-                  />
+                  <span title={item}>
+                    {item.length > 20 ? `${item.slice(0, 10)}...${item.slice(-10)}` : item}
+                  </span>
                 </Label>
               );
             })

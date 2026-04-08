@@ -1,34 +1,13 @@
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
-import { Grid, WindowScroller } from 'react-virtualized';
+import React, { Component, createRef } from 'react';
+import { Virtuoso } from 'react-virtuoso';
+
 import Measure from 'Components/Measure';
 import Scroller from 'Components/Scroller/Scroller';
 import { scrollDirections } from 'Helpers/Props';
-import hasDifferentItemsOrOrder from 'Utilities/Object/hasDifferentItemsOrOrder';
 import styles from './VirtualTable.module.css';
 
 const ROW_HEIGHT = 38;
-
-function overscanIndicesGetter(options) {
-  const {
-    cellCount,
-    overscanCellsCount,
-    startIndex,
-    stopIndex
-  } = options;
-
-  // The default getter takes the scroll direction into account,
-  // but that can cause issues. Ignore the scroll direction and
-  // always over return more items.
-
-  const overscanStartIndex = startIndex - overscanCellsCount;
-  const overscanStopIndex = stopIndex + overscanCellsCount;
-
-  return {
-    overscanStartIndex: Math.max(0, overscanStartIndex),
-    overscanStopIndex: Math.min(cellCount - 1, overscanStopIndex)
-  };
-}
 
 class VirtualTable extends Component {
 
@@ -43,45 +22,31 @@ class VirtualTable extends Component {
       scrollRestored: false
     };
 
-    this._grid = null;
+    this._virtuoso = createRef();
   }
 
   componentDidUpdate(prevProps, prevState) {
     const {
-      items,
       scrollIndex,
       scrollTop
     } = this.props;
 
     const {
-      width,
       scrollRestored
     } = this.state;
 
-    if (this._grid && (prevState.width !== width || hasDifferentItemsOrOrder(prevProps.items, items))) {
-      // recomputeGridSize also forces Grid to discard its cache of rendered cells
-      this._grid.recomputeGridSize();
-    }
-
-    if (this._grid && scrollTop !== undefined && scrollTop !== 0 && !scrollRestored) {
+    if (this._virtuoso.current && scrollTop !== undefined && scrollTop !== 0 && !scrollRestored) {
       this.setState({ scrollRestored: true });
-      this._grid.scrollToPosition({ scrollTop });
+      this._virtuoso.current.scrollTo({ top: scrollTop });
     }
 
-    if (scrollIndex != null && scrollIndex !== prevProps.scrollIndex) {
-      this._grid.scrollToCell({
-        rowIndex: scrollIndex,
-        columnIndex: 0
+    if (scrollIndex != null && scrollIndex !== prevProps.scrollIndex && this._virtuoso.current) {
+      this._virtuoso.current.scrollToIndex({
+        index: scrollIndex,
+        align: 'start'
       });
     }
   }
-
-  //
-  // Control
-
-  setGridRef = (ref) => {
-    this._grid = ref;
-  };
 
   //
   // Listeners
@@ -102,9 +67,9 @@ class VirtualTable extends Component {
       items,
       scroller,
       header,
-      headerHeight,
-      rowHeight,
       rowRenderer,
+      rowHeight,
+      overscanRowCount,
       ...otherProps
     } = this.props;
 
@@ -112,70 +77,33 @@ class VirtualTable extends Component {
       width
     } = this.state;
 
-    const gridStyle = {
-      boxSizing: undefined,
-      direction: undefined,
-      height: undefined,
-      position: undefined,
-      willChange: undefined,
-      overflow: undefined,
-      width: undefined
-    };
-
-    const containerStyle = {
-      position: undefined
-    };
+    // Default overscan to roughly 2 items worth of height or standard if not provided
+    const overscan = (overscanRowCount || 2) * rowHeight;
 
     return (
-      <WindowScroller
-        scrollElement={isSmallScreen ? undefined : scroller}
+      <Measure
+        whitelist={['width']}
+        onMeasure={this.onMeasure}
       >
-        {({ height, registerChild, onChildScroll, scrollTop }) => {
-          if (!height) {
-            return null;
-          }
-          return (
-            <Measure
-              whitelist={['width']}
-              onMeasure={this.onMeasure}
-            >
-              <Scroller
-                className={className}
-                scrollDirection={scrollDirections.HORIZONTAL}
-              >
-                {header}
-                <div ref={registerChild}>
-                  <Grid
-                    {...otherProps}
-                    ref={this.setGridRef}
-                    autoContainerWidth={true}
-                    autoHeight={true}
-                    autoWidth={true}
-                    width={width}
-                    height={height}
-                    headerHeight={height - headerHeight}
-                    rowHeight={rowHeight}
-                    rowCount={items.length}
-                    columnCount={1}
-                    columnWidth={width}
-                    scrollTop={scrollTop}
-                    onScroll={onChildScroll}
-                    overscanRowCount={2}
-                    cellRenderer={rowRenderer}
-                    overscanIndicesGetter={overscanIndicesGetter}
-                    scrollToAlignment={'start'}
-                    isScrollingOptout={true}
-                    className={styles.tableBodyContainer}
-                    style={gridStyle}
-                    containerStyle={containerStyle}
-                  />
-                </div>
-              </Scroller>
-            </Measure>
-          );
-        }
-        }
-      </WindowScroller>
+        <Scroller
+          className={className}
+          scrollDirection={scrollDirections.HORIZONTAL}
+        >
+          {header}
+          <div style={{ width: width || '100%' }}>
+            <Virtuoso
+              {...otherProps}
+              ref={this._virtuoso}
+              useWindowScroll={isSmallScreen || !scroller}
+              customScrollParent={isSmallScreen ? undefined : scroller}
+              data={items}
+              overscan={overscan}
+              itemContent={(index, item) => rowRenderer({ rowIndex: index, key: item.id || index, style: {} })}
+              className={styles.tableBodyContainer}
+            />
+          </div>
+        </Scroller>
+      </Measure>
     );
   }
 }
@@ -190,7 +118,8 @@ VirtualTable.propTypes = {
   header: PropTypes.node.isRequired,
   headerHeight: PropTypes.number.isRequired,
   rowRenderer: PropTypes.func.isRequired,
-  rowHeight: PropTypes.number.isRequired
+  rowHeight: PropTypes.number.isRequired,
+  overscanRowCount: PropTypes.number
 };
 
 VirtualTable.defaultProps = {

@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import TextTruncate from 'react-text-truncate';
+
 import ArtistPoster from 'Artist/ArtistPoster';
 import CheckInput from 'Components/Form/CheckInput';
 import SpinnerButton from 'Components/Link/SpinnerButton';
@@ -72,11 +72,18 @@ class AddNewArtistModalContent extends Component {
               {
                 overview ?
                   <div className={styles.overview}>
-                    <TextTruncate
-                      truncateText="…"
-                      line={8}
-                      text={overview}
-                    />
+                    <div
+                      style={{
+                        display: '-webkit-box',
+                        WebkitLineClamp: 8,
+                        WebkitBoxOrient: 'vertical',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        wordBreak: 'break-word',
+                      }}
+                    >
+                      {overview}
+                    </div>
                   </div> :
                   null
               }
