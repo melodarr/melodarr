@@ -1,6 +1,30 @@
 {
+  "permissions": {
+    "allow": [
+      "Bash(docker exec:*)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:8687/)",
+      "Bash(curl -s http://localhost:8687/)",
+      "Bash(ls -la frontend/dist/assets/*.css)",
+      "Bash(ls frontend/dist/assets/index-*.js)",
+      "Bash(docker compose:*)",
+      "Bash(curl -s http://localhost:8687/api/v1/config/host -H \"X-Api-Key: $\\(docker compose -f docker-compose.yml -f docker-compose.dev.yml exec melodarr-app bash -c 'grep -oP \"\\(?<=<ApiKey>\\)[^<]+\" ~/.config/Melodarr/config.xml 2>/dev/null'\\)\")",
+      "Bash(curl -s -X PUT http://localhost:8687/api/v1/config/host -H 'X-Api-Key: __TRACKED_VAR__' -H 'Content-Type: application/json' -d '{\"bindAddress\":\"*\",\"port\":8687,\"sslPort\":6868,\"enableSsl\":false,\"launchBrowser\":true,\"authenticationMethod\":\"forms\",\"authenticationRequired\":\"disabledForLocalAddresses\",\"analyticsEnabled\":true,\"username\":\"asfasdfsa\",\"password\":\"kj0eqM3k1wPxKCc8dd+pJ4hst/7p34Te4nmqHZTYYEM=\",\"passwordConfirmation\":\"\",\"logLevel\":\"debug\",\"logSizeLimit\":1,\"consoleLogLevel\":\"\",\"branch\":\"master\",\"apiKey\":\"aa48a01555a74306b6c04e1fb9b62b69\",\"sslCertPath\":\"\",\"sslCertPassword\":\"\",\"urlBase\":\"\",\"instanceName\":\"Melodarr\",\"applicationUrl\":\"\",\"updateAutomatically\":false,\"updateMechanism\":\"builtIn\",\"updateScriptPath\":\"\",\"proxyEnabled\":false,\"proxyType\":\"http\",\"proxyHostname\":\"\",\"proxyPort\":8080,\"proxyUsername\":\"\",\"proxyPassword\":\"\",\"proxyBypassFilter\":\"\",\"proxyBypassLocalAddresses\":true,\"certificateValidation\":\"enabled\",\"backupFolder\":\"Backups\",\"backupInterval\":7,\"backupRetention\":28,\"trustCgnatIpAddresses\":false,\"id\":1}')",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:8687/scalar/v1)",
+      "Bash(curl -s -o /dev/null -w '%{http_code}' 'http://localhost:8687/scalar/v1?apikey=__TRACKED_VAR__')",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" -H \"X-Api-Key: aa48a01555a74306b6c04e1fb9b62b69\" \"http://localhost:8687/swagger\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" -H \"X-Api-Key: aa48a01555a74306b6c04e1fb9b62b69\" \"http://localhost:8687/swagger/v1/swagger.json\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" -H \"X-Api-Key: aa48a01555a74306b6c04e1fb9b62b69\" \"http://localhost:8687/docs/v1/openapi.json\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:8687/assets/index-DfcR3UIV.css)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:8687/assets/bootstrap-orKFWeTF.css)",
+      "Bash(curl -s -o /dev/null -w \"HTTP %{http_code}, Size: %{size_download}, Content-Type: %{content_type}\" \"http://localhost:8687/assets/bootstrap-orKFWeTF.css\")",
+      "Bash(curl -s -o /dev/null -w \"HTTP %{http_code}, Size: %{size_download}, Content-Type: %{content_type}\" \"http://localhost:8687/assets/index-DfcR3UIV.css\")",
+      "Bash(curl -s \"http://localhost:8687/assets/bootstrap-orKFWeTF.css\")",
+      "Bash(git ls-tree:*)",
+      "Bash(npx vite:*)"
+    ]
+  },
+  "enableAllProjectMcpServers": true,
   "enabledMcpjsonServers": [
     "context7"
-  ],
-  "enableAllProjectMcpServers": true
+  ]
 }

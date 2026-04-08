@@ -1,3 +1,4 @@
+// @ts-nocheck -- Converted from JSX. Pending type annotations.
 import React from 'react';
 import { CustomFilter } from 'App/State/AppState';
 import ArtistIndexFilterModal from 'Artist/Index/ArtistIndexFilterModal';

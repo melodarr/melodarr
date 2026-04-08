@@ -1,0 +1,41 @@
+// @ts-nocheck -- Converted from JSX. Pending type annotations.
+import classNames from 'classnames';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+import Link from 'Components/Link/Link';
+import styles from './MenuButton.module.css';
+
+class MenuButton extends Component {
+  //
+  // Render
+
+  render() {
+    const { className, children, isDisabled, onPress, ...otherProps } =
+      this.props;
+
+    return (
+      <Link
+        className={classNames(className, isDisabled && styles.isDisabled)}
+        isDisabled={isDisabled}
+        onPress={onPress}
+        {...otherProps}
+      >
+        {children}
+      </Link>
+    );
+  }
+}
+
+MenuButton.propTypes = {
+  className: PropTypes.string,
+  children: PropTypes.node.isRequired,
+  isDisabled: PropTypes.bool.isRequired,
+  onPress: PropTypes.func,
+};
+
+MenuButton.defaultProps = {
+  className: styles.menuButton,
+  isDisabled: false,
+};
+
+export default MenuButton;

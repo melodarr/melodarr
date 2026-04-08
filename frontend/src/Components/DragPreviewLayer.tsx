@@ -1,0 +1,19 @@
+// @ts-nocheck -- Converted from JSX. Pending type annotations.
+import PropTypes from 'prop-types';
+import React from 'react';
+import styles from './DragPreviewLayer.module.css';
+
+function DragPreviewLayer({ children, ...otherProps }) {
+  return <div {...otherProps}>{children}</div>;
+}
+
+DragPreviewLayer.propTypes = {
+  children: PropTypes.node,
+  className: PropTypes.string,
+};
+
+DragPreviewLayer.defaultProps = {
+  className: styles.dragLayer,
+};
+
+export default DragPreviewLayer;

@@ -33,6 +33,7 @@ using NzbDrone.Core.Messaging.Events;
 using NzbDrone.Host.AccessControl;
 using NzbDrone.Http.Authentication;
 using NzbDrone.SignalR;
+using Scalar.AspNetCore;
 using IPNetwork = Microsoft.AspNetCore.HttpOverrides.IPNetwork;
 using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 
@@ -303,6 +304,17 @@ namespace NzbDrone.Host
             {
                 x.MapHub<MessageHub>("/signalr/messages").RequireAuthorization("SignalR");
                 x.MapControllers();
+
+                if (BuildInfo.IsDebug)
+                {
+                    x.MapScalarApiReference(options =>
+                    {
+                        options
+                            .WithTitle("Melodarr API")
+                            .WithTheme(ScalarTheme.DeepSpace)
+                            .WithOpenApiRoutePattern("docs/{documentName}/openapi.json");
+                    }).AllowAnonymous();
+                }
             });
         }
 

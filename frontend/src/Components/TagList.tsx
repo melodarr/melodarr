@@ -1,0 +1,38 @@
+// @ts-nocheck -- Converted from JSX. Pending type annotations.
+import PropTypes from 'prop-types';
+import React from 'react';
+import { kinds } from 'Helpers/Props';
+import sortByProp from 'Utilities/Array/sortByProp';
+import Label from './Label';
+import styles from './TagList.module.css';
+
+function TagList({ className, tags, tagList }) {
+  const sortedTags = tags
+    .map((tagId) => tagList.find((tag) => tag.id === tagId))
+    .filter((tag) => !!tag)
+    .sort(sortByProp('label'));
+
+  return (
+    <div className={className}>
+      {sortedTags.map((tag) => {
+        return (
+          <Label key={tag.id} kind={kinds.INFO}>
+            {tag.label}
+          </Label>
+        );
+      })}
+    </div>
+  );
+}
+
+TagList.propTypes = {
+  className: PropTypes.string.isRequired,
+  tags: PropTypes.arrayOf(PropTypes.number).isRequired,
+  tagList: PropTypes.arrayOf(PropTypes.object).isRequired,
+};
+
+TagList.defaultProps = {
+  className: styles.tags,
+};
+
+export default TagList;

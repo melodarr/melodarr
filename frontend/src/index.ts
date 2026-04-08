@@ -35,6 +35,15 @@ ReactDOM.findDOMNode = (component: unknown) => {
   return null;
 };
 
+// React 19 removed unstable_batchedUpdates (batching is now automatic).
+// react-redux 7.x reads this at module load time for its subscription system.
+// Without it, store updates never propagate to connected components.
+// @ts-expect-error React 19 removed unstable_batchedUpdates
+if (!ReactDOM.unstable_batchedUpdates) {
+  // @ts-expect-error React 19 removed unstable_batchedUpdates
+  ReactDOM.unstable_batchedUpdates = (callback: () => void) => callback();
+}
+
 // Removed monkey patch that was suppressing findDOMNode errors
 
 const { bootstrap } = await import('./bootstrap');

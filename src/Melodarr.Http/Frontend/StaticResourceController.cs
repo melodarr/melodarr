@@ -53,7 +53,7 @@ namespace Melodarr.Http.Frontend
         }
 
         [HttpGet("", Order = 0)]
-        [HttpGet("/{**path:regex(^(?!(api|feed)/).*)}", Order = 1)]
+        [HttpGet("/{**path:regex(^(?!(api|feed|docs|scalar)/).*)}", Order = 1)]
         public async Task<IActionResult> Index([FromRoute] string path)
         {
             return await MapResource(path);

@@ -360,8 +360,10 @@ module.exports = {
 
       rules: Object.assign(typescriptEslintRecommended.rules, {
         'no-shadow': 'off',
+        // Allow @ts-nocheck during JSX→TSX migration; re-enable once types are added
+        '@typescript-eslint/ban-ts-comment': ['error', { 'ts-nocheck': 'allow-with-description' }],
         // These should be enabled after cleaning things up
-        '@typescript-eslint/no-unused-vars': 'warn',
+        '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_', varsIgnorePattern: '^_', destructuredArrayIgnorePattern: '^_', caughtErrorsIgnorePattern: '^_' }],
         '@typescript-eslint/explicit-function-return-type': 'off',
         'react/prop-types': 'off',
         'prettier/prettier': 'error',
